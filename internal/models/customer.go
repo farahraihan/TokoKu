@@ -21,3 +21,10 @@ func NewCustomerModel(connection *gorm.DB) *CustomerModel {
 		db: connection,
 	}
 }
+func (cm *CustomerModel) AddCustomer(newData Customer) (Customer, error) {
+	err := cm.db.Create(&newData).Error
+	if err != nil {
+		return Customer{}, err
+	}
+	return newData, nil
+}
