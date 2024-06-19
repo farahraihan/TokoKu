@@ -27,3 +27,5 @@ func NewAdminModel(connection *gorm.DB) *AdminModel {
 		db: connection,
 	}
 }
+
+// login admin
