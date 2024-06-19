@@ -8,7 +8,7 @@ type Admin struct {
 	gorm.Model
 	Username   string
 	Nama       string
-	Gender     string
+	Gender     Gender
 	NoTelp     string
 	Password   string
 	Email      string

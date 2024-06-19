@@ -14,7 +14,7 @@ type Pegawai struct {
 	AdminID    uint
 	Username   string
 	Nama       string
-	Gender     string
+	Gender     Gender
 	NoTelp     string
 	Email      string
 	Password   string
