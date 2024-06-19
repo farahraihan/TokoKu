@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"tokoku/configs"
+	"tokoku/internal/controllers"
 	"tokoku/internal/models"
 	// "tokoku/internal/controllers"
 )
@@ -22,8 +23,8 @@ func main() {
 	// am := models.NewAdminModel(connection)
 	// ac := controllers.NewAdminController(am)
 
-	// pm := models.NewPegawaiModel(connection)
-	// pc := controllers.NewPegawaiController(pm)
+	pm := models.NewPegawaiModel(connection)
+	pc := controllers.NewPegawaiController(pm)
 
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
@@ -92,7 +93,8 @@ func main() {
 								// pc.DeletePegawai()
 							case 4:
 								fmt.Println("Lihat data pegawai")
-								// pc.GetPegawai()
+								pc.GetPegawai()
+								return
 							case 5:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000

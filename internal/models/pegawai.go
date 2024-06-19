@@ -53,5 +53,13 @@ func LoginPegawai(username, password string) bool {
 	return count == 1
 }
 
-// Fungsi lain untuk mengelola data pegawai, seperti menambah, mengubah, menghapus, atau mengambil data
-// Implementasikan sesuai kebutuhan aplikasi Anda
+func (pm *PegawaiModel) GetPegawai() ([]Pegawai, error) {
+	var pegawais []Pegawai
+	err := pm.db.Find(&pegawais).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return pegawais, nil
+}
