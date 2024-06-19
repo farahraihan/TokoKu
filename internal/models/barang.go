@@ -22,3 +22,14 @@ func NewBarangModel(connection *gorm.DB) *BarangModel {
 		db: connection,
 	}
 }
+
+func (bm *BarangModel) GetBarang() ([]Barang, error) {
+	var barangs []Barang
+	err := bm.db.Find(&barangs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return barangs, nil
+}
