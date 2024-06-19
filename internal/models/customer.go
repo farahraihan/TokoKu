@@ -51,3 +51,15 @@ func (cm *CustomerModel) UpdateCustomer(id uint, updatedData Customer) (Customer
 
     return existingData, nil
 }
+func (cm *CustomerModel) DeleteCustomer(id uint) error {
+	var customer Customer
+	err := cm.db.First(&customer, id).Error
+	if err != nil {
+		return err
+	}
+	err = cm.db.Delete(&customer).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}

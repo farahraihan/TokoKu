@@ -60,3 +60,13 @@ func (cc *CustomerController) UpdateCustomer(id uint) (bool, error) {
     }
     return true, nil
 }
+func (cc *CustomerController) DeleteCustomer() (bool, error) {
+	var deleteData models.Customer
+	fmt.Print("Masukkan ID customer yang ingin dihapus: ")
+	fmt.Scanln(&deleteData.ID)
+	err := cc.model.DeleteCustomer(deleteData.ID)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
