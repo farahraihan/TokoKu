@@ -1,8 +1,41 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"tokoku/configs"
+	"tokoku/internal/models"
+	// "tokoku/internal/controllers"
+)
 
 func main() {
+
+	// Koneksi ke database
+	setup := configs.ImportSetting()
+	connection, err := configs.ConnectDB(setup)
+	if err != nil {
+		fmt.Println("Stop program, masalah pada database:", err.Error())
+		return
+	}
+
+	connection.AutoMigrate(&models.Admin{}, &models.Pegawai{}, &models.Customer{}, &models.Transaksi{}, &models.Barang{}, &models.DetailTransaksi{})
+
+	// am := models.NewAdminModel(connection)
+	// ac := controllers.NewAdminController(am)
+
+	// pm := models.NewPegawaiModel(connection)
+	// pc := controllers.NewPegawaiController(pm)
+
+	// cm := models.NewCustomerModel(connection)
+	// cc := controllers.NewCustomerController(cm)
+
+	// tm := models.NewTransaksiModel(connection)
+	// tc := controllers.NewTransaksiController(tm)
+
+	// bm := models.NewBarangModel(connection)
+	// bc := controllers.NewBarangController(bm)
+
+	// dm := models.NewDetailTransaksiModel(connection)
+	// dc := controllers.NewDetailTransaksiController(dm)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")

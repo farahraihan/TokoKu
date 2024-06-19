@@ -13,7 +13,7 @@ import (
 // Struktur model untuk pegawai
 type Pegawai struct {
 	gorm.Model
-	AdminID    string
+	AdminID    uint
 	Username   string
 	Nama       string
 	Gender     string

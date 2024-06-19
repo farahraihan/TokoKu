@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Customer struct {
 	gorm.Model
-	PegawaiID string
+	PegawaiID uint
 	Username  string
 	Nama      string
 	Email     string
