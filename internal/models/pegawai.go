@@ -7,16 +7,32 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql" // Driver MySQL
+	"gorm.io/gorm"
 )
 
 // Struktur model untuk pegawai
 type Pegawai struct {
-	Username string
-	Nama     string
-	Kelamin  string
-	NoTelp   int
-	Email    string
-	Password string
+	gorm.Model
+	AdminID    string
+	Username   string
+	Nama       string
+	Gender     string
+	NoTelp     string
+	Email      string
+	Password   string
+	Customers  []Customer  `gorm:"foreignKey:PegawaiID"`
+	Transaksis []Transaksi `gorm:"foreignKey:PegawaiID"`
+	Barangs    []Barang    `gorm:"foreignKey:PegawaiID"`
+}
+
+type PegawaiModel struct {
+	db *gorm.DB
+}
+
+func NewPegawaiModel(connection *gorm.DB) *PegawaiModel {
+	return &PegawaiModel{
+		db: connection,
+	}
 }
 
 // Fungsi untuk melakukan login pegawai
