@@ -28,3 +28,26 @@ func (cm *CustomerModel) AddCustomer(newData Customer) (Customer, error) {
 	}
 	return newData, nil
 }
+
+func (cm *CustomerModel) UpdateCustomer(id uint, updatedData Customer) (Customer, error) {
+    var existingData Customer
+    // Cari data pelanggan berdasarkan ID
+    err := cm.db.First(&existingData, id).Error
+    if err != nil {
+        return Customer{}, err
+    }
+
+    // Update data yang ditemukan
+    existingData.Username = updatedData.Username
+    existingData.Nama = updatedData.Nama
+    existingData.Email = updatedData.Email
+    existingData.NoTelp = updatedData.NoTelp
+
+    // Simpan data yang telah diperbarui kembali ke database
+    err = cm.db.Save(&existingData).Error
+    if err != nil {
+        return Customer{}, err
+    }
+
+    return existingData, nil
+}

@@ -36,3 +36,27 @@ func (cc *CustomerController) AddCustomer(id uint) (bool, error) {
 
 	return true, nil
 }
+
+func (cc *CustomerController) UpdateCustomer(id uint) (bool, error) {
+	var updatedData models.Customer
+	fmt.Print("Masukkan ID customer yang ingin diperbarui: ")
+	fmt.Scanln(&id)
+	fmt.Print("Masukkan Username: ")
+	fmt.Scanln(&updatedData.Username)
+	fmt.Print("Masukkan Nama: ")
+	fmt.Scanln(&updatedData.Nama)
+	fmt.Print("Masukkan Email: ")
+	// Membersihkan newline dari buffer
+	fmt.Scanln()
+	
+	fmt.Scanln(&updatedData.Email)
+	fmt.Print("Masukkan nomor telepon: ")
+	fmt.Scanln(&updatedData.NoTelp)
+
+	
+	_, err := cc.model.UpdateCustomer(id, updatedData)
+    if err != nil {
+        return false, err
+    }
+    return true, nil
+}
