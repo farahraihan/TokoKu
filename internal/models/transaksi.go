@@ -6,8 +6,8 @@ import (
 
 type Transaksi struct {
 	gorm.Model
-	PegawaiId        uint
-	CustomerId       uint
+	PegawaiID        uint
+	CustomerID       uint
 	DetailTransaksis []DetailTransaksi `gorm:"foreignKey:TransaksiID"`
 }
 

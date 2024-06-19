@@ -4,11 +4,12 @@ import "gorm.io/gorm"
 
 type Customer struct {
 	gorm.Model
-	PegawaiID uint
-	Username  string
-	Nama      string
-	Email     string
-	NoTelp    string
+	PegawaiID  uint
+	Username   string
+	Nama       string
+	Email      string
+	NoTelp     string
+	Transaksis []Transaksi `gorm:"foreignKey:CustomerID"`
 }
 
 type CustomerModel struct {

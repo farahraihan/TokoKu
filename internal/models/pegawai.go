@@ -1,5 +1,3 @@
-// models/pegawai_model.go
-
 package models
 
 import (
