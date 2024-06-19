@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"tokoku/configs"
+	"tokoku/internal/controllers"
 	"tokoku/internal/models"
 	// "tokoku/internal/controllers"
 )
@@ -25,8 +26,8 @@ func main() {
 	// pm := models.NewPegawaiModel(connection)
 	// pc := controllers.NewPegawaiController(pm)
 
-	// cm := models.NewCustomerModel(connection)
-	// cc := controllers.NewCustomerController(cm)
+	cm := models.NewCustomerModel(connection)
+	cc := controllers.NewCustomerController(cm)
 
 	// tm := models.NewTransaksiModel(connection)
 	// tc := controllers.NewTransaksiController(tm)
@@ -124,7 +125,9 @@ func main() {
 								// cc.DeleteCustomer()
 							case 4:
 								fmt.Println("Lihat data customer")
-								// cc.GetCustomer()
+								cc.GetCustomer()
+								return
+
 							case 5:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
@@ -248,7 +251,8 @@ func main() {
 								// cc.DeleteCustomer()
 							case 4:
 								fmt.Println("Lihat data customer")
-								// cc.GetCustomer()
+								cc.GetCustomer()
+								return
 							case 5:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000

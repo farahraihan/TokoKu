@@ -21,3 +21,15 @@ func NewCustomerModel(connection *gorm.DB) *CustomerModel {
 		db: connection,
 	}
 }
+
+// GetCustomer
+func (cm *CustomerModel) GetCustomer() ([]Customer, error) {
+	var customers []Customer
+	err := cm.db.Find(&customers).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return customers, nil
+}
