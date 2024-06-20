@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"tokoku/configs"
+	"tokoku/internal/controllers"
 	"tokoku/internal/models"
 	// "tokoku/internal/controllers"
 )
@@ -17,7 +18,7 @@ func main() {
 		return
 	}
 
-	connection.AutoMigrate(&models.Admin{}, &models.Pegawai{}, &models.Customer{}, &models.Transaksi{}, &models.Barang{}, &models.DetailTransaksi{})
+	connection.AutoMigrate(&models.Pegawai{}, &models.Customer{}, &models.Transaksi{}, &models.Barang{}, &models.DetailTransaksi{})
 
 	// am := models.NewAdminModel(connection)
 	// ac := controllers.NewAdminController(am)
@@ -28,14 +29,14 @@ func main() {
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
 
-	// tm := models.NewTransaksiModel(connection)
-	// tc := controllers.NewTransaksiController(tm)
+	bm := models.NewBarangModel(connection)
+	bc := controllers.NewBarangController(bm)
 
-	// bm := models.NewBarangModel(connection)
-	// bc := controllers.NewBarangController(bm)
+	dm := models.NewDetailTransaksiModel(connection, bm)
+	dc := controllers.NewDetailTransaksiController(dm, bc)
 
-	// dm := models.NewDetailTransaksiModel(connection)
-	// dc := controllers.NewDetailTransaksiController(dm)
+	tm := models.NewTransaksiModel(connection)
+	tc := controllers.NewTransaksiController(tm, dc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -44,18 +45,27 @@ func main() {
 
 	for inputMenu != 1000 {
 		fmt.Println("Silahkan pilih menu :")
-		fmt.Println("1. Login sebagai admin")
-		fmt.Println("2. Login sebagai pegawai")
-		fmt.Println("3. Keluar")
+		fmt.Println("1. Login ")
+		fmt.Println("2. Keluar ")
 		fmt.Print("Masukkan input: ")
 		fmt.Scanln(&inputMenu)
 
 		switch inputMenu {
 		case 1:
-			// manggil function ac.login
-			var isLogin = true
 
-			if isLogin {
+			// data, err := ac.Login()
+			// if err != nil {
+			// 	fmt.Println("Terjadi error pada saat login, error: ", err.Error())
+			// 	return
+			// }
+			// username := data.Username
+
+			// contoh data.Username
+			username := "farah"
+
+			if username == "admin" {
+				fmt.Print("\nTerdeteksi sebagai admin\n")
+
 				for inputMenu != 1000 {
 					fmt.Println("____________________________________")
 					fmt.Println("Silahkan pilih menu :")
@@ -138,26 +148,33 @@ func main() {
 							fmt.Println("____________________________________")
 							fmt.Println("Pilih aksi : ")
 							fmt.Println("1. Tambah data transaksi")
-							fmt.Println("2. Edit data transaksi")
-							fmt.Println("3. Hapus data transaksi")
-							fmt.Println("4. Lihat data transaksi")
-							fmt.Println("5. Keluar")
+							fmt.Println("2. Hapus data transaksi")
+							fmt.Println("3. Cetak transaksi")
+							fmt.Println("4. Keluar")
 							fmt.Print("Masukkan input: ")
 							fmt.Scanln(&inputMenu)
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
+								// Contoh penggunaan
+								transaksiID := uint(1)
+
+								// Memanggil fungsi AddDetailTransaksi dari controller
+								err = dc.AddDetailTransaksi(transaksiID)
+								if err != nil {
+									fmt.Printf("Error adding detail transaksi: %v\n", err)
+									return
+								}
+								fmt.Println("Detail transaksi berhasil ditambahkan.")
 								// tc.AddTransaksi()
+								// tc.AddDetailTransaksi
 							case 2:
-								fmt.Println("Edit data transaksi")
-								// tc.UpdateTransaksi()
-							case 3:
 								fmt.Println("Hapus data transaksi")
 								// tc.DeleteTransaksi()
-							case 4:
-								fmt.Println("Lihat data transaksi")
+							case 3:
+								fmt.Println("Cetak transaksi")
 								// tc.GetTransaksi()
-							case 5:
+							case 4:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
 							default:
@@ -171,9 +188,10 @@ func main() {
 							fmt.Println("Pilih aksi : ")
 							fmt.Println("1. Tambah data barang")
 							fmt.Println("2. Edit data barang")
-							fmt.Println("3. Hapus data barang")
-							fmt.Println("4. Lihat data barang")
-							fmt.Println("5. Keluar")
+							fmt.Println("3. Tambah stock barang")
+							fmt.Println("4. Hapus data barang")
+							fmt.Println("5. Lihat data barang")
+							fmt.Println("6. Keluar")
 							fmt.Print("Masukkan input: ")
 							fmt.Scanln(&inputMenu)
 							switch inputMenu {
@@ -184,12 +202,15 @@ func main() {
 								fmt.Println("Edit data barang")
 								// bc.UpdateBarang()
 							case 3:
+								fmt.Println("Tambah stock barang")
+								// bc.UpdateStokBarang()
+							case 4:
 								fmt.Println("Hapus data barang")
 								// bc.DeleteBarang()
-							case 4:
+							case 5:
 								fmt.Println("Lihat data barang")
 								// bc.GetBarang()
-							case 5:
+							case 6:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
 							default:
@@ -206,14 +227,10 @@ func main() {
 
 					}
 				}
-			}
 
-		case 2:
-			// Manggil function pc.Login()
+			} else {
+				fmt.Print("\nTerdeteksi sebagai pegawai\n")
 
-			var isLogin = true
-
-			if isLogin {
 				for inputMenu != 1000 {
 					fmt.Println("____________________________________")
 					fmt.Println("Silahkan pilih menu :")
@@ -262,26 +279,31 @@ func main() {
 							fmt.Println("____________________________________")
 							fmt.Println("Pilih aksi : ")
 							fmt.Println("1. Tambah data transaksi")
-							fmt.Println("2. Edit data transaksi")
-							fmt.Println("3. Hapus data transaksi")
-							fmt.Println("4. Lihat data transaksi")
-							fmt.Println("5. Keluar")
+							fmt.Println("2. Cetak transaksi")
+							fmt.Println("3. Keluar")
 							fmt.Print("Masukkan input: ")
 							fmt.Scanln(&inputMenu)
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
-								// tc.AddTransaksi()
+								// Add Transaksi dengan contoh id pegawai/admin
+								transaksiID, err := tc.AddTransaksi(1)
+								if err != nil {
+									fmt.Printf("Error adding transaksi: %v\n", err)
+									return
+								}
+
+								// Memanggil fungsi AddDetailTransaksi dari controller
+								err = dc.AddDetailTransaksi(transaksiID)
+								if err != nil {
+									fmt.Printf("Error adding detail transaksi: %v\n", err)
+									return
+								}
+								fmt.Println("Detail transaksi berhasil ditambahkan.")
 							case 2:
-								fmt.Println("Edit data transaksi")
-								// tc.UpdateTransaksi()
-							case 3:
-								fmt.Println("Hapus data transaksi")
-								// tc.DeleteTransaksi()
-							case 4:
-								fmt.Println("Lihat data transaksi")
+								fmt.Println("Cetak transaksi")
 								// tc.GetTransaksi()
-							case 5:
+							case 3:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
 							default:
@@ -295,9 +317,10 @@ func main() {
 							fmt.Println("Pilih aksi : ")
 							fmt.Println("1. Tambah data barang")
 							fmt.Println("2. Edit data barang")
-							fmt.Println("3. Hapus data barang")
-							fmt.Println("4. Lihat data barang")
-							fmt.Println("5. Keluar")
+							fmt.Println("3. Tambah stock barang")
+							fmt.Println("4. Hapus data barang")
+							fmt.Println("5. Lihat data barang")
+							fmt.Println("6. Keluar")
 							fmt.Print("Masukkan input: ")
 							fmt.Scanln(&inputMenu)
 							switch inputMenu {
@@ -308,12 +331,15 @@ func main() {
 								fmt.Println("Edit data barang")
 								// bc.UpdateBarang()
 							case 3:
+								fmt.Println("Tambah stock barang")
+								// bc.UpdateStokBarang()
+							case 4:
 								fmt.Println("Hapus data barang")
 								// bc.DeleteBarang()
-							case 4:
+							case 5:
 								fmt.Println("Lihat data barang")
 								// bc.GetBarang()
-							case 5:
+							case 6:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
 							default:
@@ -321,7 +347,7 @@ func main() {
 							}
 						}
 
-					case 4:
+					case 5:
 						fmt.Println("TERIMAKASIH ^_^ !")
 						inputMenu = 1000
 
@@ -329,11 +355,11 @@ func main() {
 						fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
 
 					}
-
 				}
+
 			}
 
-		case 3:
+		case 2:
 			fmt.Println("TERIMAKASIH ^_^ !")
 			inputMenu = 1000
 
