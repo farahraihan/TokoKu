@@ -97,7 +97,7 @@ func main() {
 
 							case 2:
 								fmt.Println("Edit data pegawai")
-								// pc.UpdatePegawai()
+								pc.UpdatePegawai()
 							case 3:
 								fmt.Println("Hapus data pegawai")
 								// pc.DeletePegawai()
