@@ -28,14 +28,16 @@ func main() {
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
 
-	// tm := models.NewTransaksiModel(connection)
-	// tc := controllers.NewTransaksiController(tm)
+	
 
 	// bm := models.NewBarangModel(connection)
 	// bc := controllers.NewBarangController(bm)
 
-	// dm := models.NewDetailTransaksiModel(connection)
-	// dc := controllers.NewDetailTransaksiController(dm)
+	// dm := models.NewDetailTransaksiModel(connection,bm)
+	// dc := controllers.NewDetailTransaksiController(dm,bc)
+
+	// tm := models.NewTransaksiModel(connection)
+	// tc := controllers.NewTransaksiController(tm,dc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -270,8 +272,7 @@ func main() {
 							fmt.Scanln(&inputMenu)
 							switch inputMenu {
 							case 1:
-								// tc.AddTransaksi()
-								fmt.Println("berhasil menambahkan aktivitas")
+								// tc.AddTransaksi(1)
 							case 2:
 								fmt.Println("Edit data transaksi")
 								// tc.UpdateTransaksi()
