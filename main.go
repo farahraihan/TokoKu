@@ -61,7 +61,7 @@ func main() {
 			// username := data.Username
 
 			// contoh data.Username
-			username := "farah"
+			username := "admin"
 
 			if username == "admin" {
 				fmt.Print("\nTerdeteksi sebagai admin\n")
@@ -97,7 +97,7 @@ func main() {
 
 							case 2:
 								fmt.Println("Edit data pegawai")
-								// pc.UpdatePegawai()
+								pc.UpdatePegawai()
 							case 3:
 								fmt.Println("Hapus data pegawai")
 								// pc.DeletePegawai()
