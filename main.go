@@ -23,8 +23,8 @@ func main() {
 	// am := models.NewAdminModel(connection)
 	// ac := controllers.NewAdminController(am)
 
-	// pm := models.NewPegawaiModel(connection)
-	// pc := controllers.NewPegawaiController(pm)
+	pm := models.NewPegawaiModel(connection)
+	pc := controllers.NewPegawaiController(pm)
 
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
@@ -93,7 +93,8 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data pegawai")
-								// pc.AddPegawai()
+								pc.AddPegawai()
+
 							case 2:
 								fmt.Println("Edit data pegawai")
 								// pc.UpdatePegawai()
