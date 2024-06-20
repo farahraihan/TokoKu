@@ -28,14 +28,14 @@ func main() {
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
 
-	// bm := models.NewBarangModel(connection)
+	bm := models.NewBarangModel(connection)
 	// bc := controllers.NewBarangController(bm)
 
 	// dm := models.NewDetailTransaksiModel(connection, bm)
 	// dc := controllers.NewDetailTransaksiController(dm, bc)
 
 	tm := models.NewTransaksiModel(connection)
-	tc := controllers.NewTransaksiController(tm)
+	tc := controllers.NewTransaksiController(tm, bm)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -161,7 +161,6 @@ func main() {
 								fmt.Println("Hapus data transaksi")
 								// tc.DeleteTransaksi()
 							case 3:
-								// Memanggil fungsi untuk mencetak nota transaksi
 								err := tc.PrintNotaTransaksi()
 								if err != nil {
 									fmt.Printf("Error: %v\n", err)
@@ -281,11 +280,10 @@ func main() {
 								// tc.AddTransaksi()
 								// tc.AddDetailTransaksi
 							case 2:
-								// Memanggil fungsi untuk mencetak nota transaksi
-								// err := tc.PrintNotaTransaksi()
-								// if err != nil {
-								// 	fmt.Printf("Error: %v\n", err)
-								// }
+								err := tc.PrintNotaTransaksi()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+								}
 							case 3:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000

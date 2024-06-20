@@ -11,9 +11,10 @@ type TransaksiController struct {
 	barangModel    *models.BarangModel
 }
 
-func NewTransaksiController(tm *models.TransaksiModel) *TransaksiController {
+func NewTransaksiController(tm *models.TransaksiModel, bm *models.BarangModel) *TransaksiController {
 	return &TransaksiController{
 		transaksiModel: tm,
+		barangModel:    bm,
 	}
 }
 
@@ -50,6 +51,7 @@ func (tc *TransaksiController) printNotaTransaksiByID(transaksiID uint) error {
 
 	// Menampilkan informasi nota transaksi
 	fmt.Printf("Nota Transaksi\n")
+	fmt.Println("-------------------------------------------")
 	fmt.Printf("ID Transaksi: %d\n", transaksi.ID)
 	fmt.Printf("Tanggal: %s\n", transaksi.CreatedAt.Format("02-01-2006"))
 	fmt.Printf("ID Pegawai: %d\n", transaksi.PegawaiID)
