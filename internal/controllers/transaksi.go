@@ -7,14 +7,16 @@ import (
 )
 
 type TransaksiController struct {
-	transaksiModel *models.TransaksiModel
-	barangModel    *models.BarangModel
+	transaksiModel            *models.TransaksiModel
+	barangModel               *models.BarangModel
+	DetailTransaksiController *DetailTransaksiController // Perhatikan perubahan ini
 }
 
-func NewTransaksiController(tm *models.TransaksiModel, bm *models.BarangModel) *TransaksiController {
+func NewTransaksiController(tm *models.TransaksiModel, bm *models.BarangModel, dc *DetailTransaksiController) *TransaksiController {
 	return &TransaksiController{
-		transaksiModel: tm,
-		barangModel:    bm,
+		transaksiModel:            tm,
+		barangModel:               bm,
+		DetailTransaksiController: dc,
 	}
 }
 
@@ -77,4 +79,38 @@ func (tc *TransaksiController) printNotaTransaksiByID(transaksiID uint) error {
 	fmt.Printf("Total Harga: %.2f\n", totalHarga)
 
 	return nil
+}
+
+func (tc *TransaksiController) AddTransaksi(id uint) (uint, error) {
+	var newData models.Transaksi
+
+	fmt.Print("Masukkan id customer: ")
+	fmt.Scanln(&newData.CustomerID)
+	newData.PegawaiID = id
+
+	newTransactionID, err := tc.transaksiModel.AddTransaksi(newData)
+	if err != nil {
+		return 0, err
+	}
+	return newTransactionID, nil
+}
+
+func (tc *TransaksiController) DeleteTransaksi() (bool, error) {
+	var deleteData models.Transaksi
+	fmt.Print("Masukkan ID Transaksi yang ingin dihapus: ")
+	fmt.Scanln(&deleteData.ID)
+
+	// Hapus transaksi
+	err := tc.transaksiModel.DeleteTransaksi(deleteData.ID)
+	if err != nil {
+		return false, err
+	}
+
+	// Hapus detail transaksi
+	err = tc.DetailTransaksiController.DeleteDetailTransaksi(deleteData.ID)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }

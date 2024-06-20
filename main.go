@@ -22,20 +22,20 @@ func main() {
 	// am := models.NewAdminModel(connection)
 	// ac := controllers.NewAdminController(am)
 
-	// pm := models.NewPegawaiModel(connection)
-	// pc := controllers.NewPegawaiController(pm)
+	pm := models.NewPegawaiModel(connection)
+	pc := controllers.NewPegawaiController(pm)
 
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
 
 	bm := models.NewBarangModel(connection)
-	// bc := controllers.NewBarangController(bm)
+	bc := controllers.NewBarangController(bm)
 
-	// dm := models.NewDetailTransaksiModel(connection, bm)
-	// dc := controllers.NewDetailTransaksiController(dm, bc)
+	dm := models.NewDetailTransaksiModel(connection, bm)
+	dc := controllers.NewDetailTransaksiController(dm, bc)
 
 	tm := models.NewTransaksiModel(connection)
-	tc := controllers.NewTransaksiController(tm, bm)
+	tc := controllers.NewTransaksiController(tm, bm, dc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -92,7 +92,8 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data pegawai")
-								// pc.AddPegawai()
+								pc.AddPegawai()
+
 							case 2:
 								fmt.Println("Edit data pegawai")
 								// pc.UpdatePegawai()
@@ -155,6 +156,16 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
+								// Contoh penggunaan
+								transaksiID := uint(1)
+
+								// Memanggil fungsi AddDetailTransaksi dari controller
+								err = dc.AddDetailTransaksi(transaksiID)
+								if err != nil {
+									fmt.Printf("Error adding detail transaksi: %v\n", err)
+									return
+								}
+								fmt.Println("Detail transaksi berhasil ditambahkan.")
 								// tc.AddTransaksi()
 								// tc.AddDetailTransaksi
 							case 2:
@@ -277,8 +288,20 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
-								// tc.AddTransaksi()
-								// tc.AddDetailTransaksi
+								// Add Transaksi dengan contoh id pegawai/admin
+								transaksiID, err := tc.AddTransaksi(1)
+								if err != nil {
+									fmt.Printf("Error adding transaksi: %v\n", err)
+									return
+								}
+
+								// Memanggil fungsi AddDetailTransaksi dari controller
+								err = dc.AddDetailTransaksi(transaksiID)
+								if err != nil {
+									fmt.Printf("Error adding detail transaksi: %v\n", err)
+									return
+								}
+								fmt.Println("Detail transaksi berhasil ditambahkan.")
 							case 2:
 								err := tc.PrintNotaTransaksi()
 								if err != nil {
