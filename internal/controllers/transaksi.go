@@ -30,3 +30,23 @@ func (tc *TransaksiController) AddTransaksi(id uint) (uint, error) {
 	}
 	return newTransactionID, nil // Mengembalikan true jika proses penambahan transaksi berhasil selesai
 }
+
+func (tc *TransaksiController) DeleteTransaksi() (bool, error) {
+    var deleteData models.Transaksi
+    fmt.Print("Masukkan ID Transaksi yang ingin dihapus: ")
+    fmt.Scanln(&deleteData.ID)
+    
+    // Hapus transaksi
+    err := tc.model.DeleteTransaksi(deleteData.ID)
+    if err != nil {
+        return false, err
+    }
+    
+    // Hapus detail transaksi
+    err = tc.DetailTransaksiController.DeleteDetailTransaksi(deleteData.ID)
+    if err != nil {
+        return false, err
+    }
+    
+    return true, nil
+}
