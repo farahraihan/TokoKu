@@ -34,3 +34,9 @@ func (pc *PegawaiController) GetPegawai() {
 
 	}
 }
+
+func (pc *PegawaiController) AddPegawai() {
+}
+
+func (c *PegawaiController) UpdatePegawai() {
+}
