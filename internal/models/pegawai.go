@@ -1,10 +1,6 @@
 package models
 
 import (
-	"database/sql"
-	"fmt"
-
-	_ "github.com/go-sql-driver/mysql" // Driver MySQL
 	"gorm.io/gorm"
 )
 
@@ -32,25 +28,42 @@ func NewPegawaiModel(connection *gorm.DB) *PegawaiModel {
 	}
 }
 
-// Fungsi untuk melakukan login pegawai
-func LoginPegawai(username, password string) bool {
-	db, err := sql.Open("mysql", "username:password@tcp(127.0.0.1:3306)/dbname")
+func (pm *PegawaiModel) AddPegawai(newData Pegawai) (Pegawai, error) {
+	err := pm.db.Create(&newData).Error
 	if err != nil {
-		fmt.Println("Error connecting to database:", err)
-		return false
+		return Pegawai{}, err
 	}
-	defer db.Close()
-
-	// Query untuk memeriksa keberadaan pegawai dengan username dan password tertentu
-	var count int
-	err = db.QueryRow("SELECT COUNT(*) FROM pegawai WHERE username = ? AND password = ?", username, password).Scan(&count)
-	if err != nil {
-		fmt.Println("Error querying database:", err)
-		return false
-	}
-
-	return count == 1
+	return newData, nil
 }
 
-// Fungsi lain untuk mengelola data pegawai, seperti menambah, mengubah, menghapus, atau mengambil data
-// Implementasikan sesuai kebutuhan aplikasi Anda
+func (pm *PegawaiModel) GetPegawai() ([]Pegawai, error) {
+	var pegawais []Pegawai
+	err := pm.db.Find(&pegawais).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return pegawais, nil
+}
+
+func (m *PegawaiModel) UpdatePegawaiByID(id uint, newData Pegawai) error {
+	var pegawai Pegawai
+	if err := m.db.First(&pegawai, id).Error; err != nil {
+		return err
+	}
+
+	// Update the fields that are allowed to be updated
+	pegawai.Username = newData.Username
+	pegawai.Nama = newData.Nama
+	pegawai.Gender = newData.Gender
+	pegawai.NoTelp = newData.NoTelp
+	pegawai.Email = newData.Email
+	pegawai.Password = newData.Password
+
+	if err := m.db.Save(&pegawai).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

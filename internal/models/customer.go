@@ -21,3 +21,58 @@ func NewCustomerModel(connection *gorm.DB) *CustomerModel {
 		db: connection,
 	}
 }
+
+// GetCustomer
+func (cm *CustomerModel) GetCustomer() ([]Customer, error) {
+	var customers []Customer
+	err := cm.db.Find(&customers).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return customers, nil
+}
+
+func (cm *CustomerModel) AddCustomer(newData Customer) (Customer, error) {
+	err := cm.db.Create(&newData).Error
+	if err != nil {
+		return Customer{}, err
+	}
+	return newData, nil
+}
+
+func (cm *CustomerModel) UpdateCustomer(id uint, updatedData Customer) (Customer, error) {
+	var existingData Customer
+	// Cari data pelanggan berdasarkan ID
+	err := cm.db.First(&existingData, id).Error
+	if err != nil {
+		return Customer{}, err
+	}
+
+	// Update data yang ditemukan
+	existingData.Username = updatedData.Username
+	existingData.Nama = updatedData.Nama
+	existingData.Email = updatedData.Email
+	existingData.NoTelp = updatedData.NoTelp
+
+	// Simpan data yang telah diperbarui kembali ke database
+	err = cm.db.Save(&existingData).Error
+	if err != nil {
+		return Customer{}, err
+	}
+
+	return existingData, nil
+}
+func (cm *CustomerModel) DeleteCustomer(id uint) error {
+	var customer Customer
+	err := cm.db.First(&customer, id).Error
+	if err != nil {
+		return err
+	}
+	err = cm.db.Delete(&customer).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
