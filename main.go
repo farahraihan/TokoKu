@@ -29,13 +29,14 @@ func main() {
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
 
-	
-
 	bm := models.NewBarangModel(connection)
 	bc := controllers.NewBarangController(bm)
 
-	dm := models.NewDetailTransaksiModel(connection, bm)
-	dc := controllers.NewDetailTransaksiController(dm, bc)
+	dm := models.NewDetailTransaksiModel(connection,bm)
+	dc := controllers.NewDetailTransaksiController(dm,bc)
+
+	tm := models.NewTransaksiModel(connection)
+	tc := controllers.NewTransaksiController(tm,dc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -280,8 +281,12 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
-								// Contoh penggunaan
-								transaksiID := uint(1)
+								// Add Transaksi dengan contoh id pegawai/admin
+								transaksiID, err := tc.AddTransaksi(1)
+								if err != nil {
+									fmt.Printf("Error adding transaksi: %v\n", err)
+									return
+								}
 
 								// Memanggil fungsi AddDetailTransaksi dari controller
 								err = dc.AddDetailTransaksi(transaksiID)
@@ -290,6 +295,7 @@ func main() {
 									return
 								}
 								fmt.Println("Detail transaksi berhasil ditambahkan.")
+								
 							case 2:
 								fmt.Println("Edit data transaksi")
 								dc.AddDetailTransaksi(1)

@@ -17,47 +17,16 @@ func NewTransaksiController(m *models.TransaksiModel, dc *DetailTransaksiControl
 	}
 }
 
-func (tc *TransaksiController) AddTransaksi(id uint) (bool, error) {
+func (tc *TransaksiController) AddTransaksi(id uint) (uint, error) {
 	var newData models.Transaksi
-	var barangId uint
-	var jumlah uint
-	var harga float64
-	var menu int
-
+	
 	fmt.Print("Masukkan id customer: ")
 	fmt.Scanln(&newData.CustomerID)
 	newData.PegawaiID = id
 
-	for {
-		fmt.Println("\nMenu:")
-		fmt.Println("1. Tambah barang")
-		fmt.Println("2. Selesai")
-		fmt.Print("Pilih menu: ")
-		fmt.Scanln(&menu)
-
-		if menu == 2 {
-			break // Keluar dari loop jika memilih menu 2 (selesai)
-		}
-
-		fmt.Print("Masukkan id barang: ")
-		fmt.Scanln(&barangId)
-		fmt.Print("Masukkan jumlah barang: ")
-		fmt.Scanln(&jumlah)
-		fmt.Print("Masukkan harga barang: ")
-		fmt.Scanln(&harga)
-
-		newTransactionID, err := tc.model.AddTransaksi(newData)
-		if err != nil {
-			return false, err // Mengembalikan false karena tidak ada transaksi yang berhasil ditambahkan
-		}
-
-		if tc.DetailTransaksiController != nil {
-			err = tc.DetailTransaksiController.AddDetailTransaksi(newTransactionID, barangId, jumlah, harga)
-			if err != nil {
-				return false, err
-			}
-		}
+	newTransactionID, err := tc.model.AddTransaksi(newData)
+	if err != nil {
+		return 0, err
 	}
-
-	return true, nil // Mengembalikan true jika proses penambahan transaksi berhasil selesai
+	return newTransactionID, nil // Mengembalikan true jika proses penambahan transaksi berhasil selesai
 }
