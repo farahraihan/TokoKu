@@ -27,3 +27,11 @@ func NewPegawaiModel(connection *gorm.DB) *PegawaiModel {
 		db: connection,
 	}
 }
+
+func (pm *PegawaiModel) AddPegawai(newData Pegawai) (Pegawai, error) {
+	err := pm.db.Create(&newData).Error
+	if err != nil {
+		return Pegawai{}, err
+	}
+	return newData, nil
+}
