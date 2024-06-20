@@ -11,7 +11,6 @@ import (
 // Struktur model untuk pegawai
 type Pegawai struct {
 	gorm.Model
-	AdminID    uint
 	Username   string
 	Nama       string
 	Gender     Gender

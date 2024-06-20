@@ -25,7 +25,6 @@ func (pc *PegawaiController) GetPegawai() {
 	for _, pegawai := range pegawais {
 		fmt.Println("----------------------------------")
 		fmt.Printf("ID: %d\n", pegawai.ID)
-		fmt.Printf("AdminID: %d\n", pegawai.AdminID)
 		fmt.Printf("Username: %s\n", pegawai.Username)
 		fmt.Printf("Nama: %s\n", pegawai.Nama)
 		fmt.Printf("Email: %s\n", pegawai.Email)
