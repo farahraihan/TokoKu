@@ -205,7 +205,11 @@ func main() {
 								// bc.UpdateBarang()
 							case 3:
 								fmt.Println("Tambah stock barang")
-								// bc.UpdateStokBarang()
+								// Contoh penggunaan UpdateStock
+								err = bc.UpdateStock()
+								if err != nil {
+									fmt.Println("Error:", err)
+								}
 							case 4:
 								fmt.Println("Hapus data barang")
 								// bc.DeleteBarang()
@@ -336,7 +340,12 @@ func main() {
 								// bc.UpdateBarang()
 							case 3:
 								fmt.Println("Tambah stock barang")
-								// bc.UpdateStokBarang()
+								// Contoh penggunaan UpdateStock
+								err = bc.UpdateStock()
+								if err != nil {
+									fmt.Println("Error:", err)
+								}
+
 							case 4:
 								fmt.Println("Hapus data barang")
 								// bc.DeleteBarang()
