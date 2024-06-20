@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"strconv"
 	"tokoku/internal/models"
 )
 
@@ -56,4 +57,42 @@ func (bc *BarangController) GetBarangByID(barangID uint) (*models.Barang, error)
 		return nil, fmt.Errorf("failed to get barang: %w", err)
 	}
 	return barang, nil
+}
+
+func (bc *BarangController) UpdateStock() error {
+	var barangIDInput string
+	var quantityInput string
+
+	// Meminta input ID barang dari pengguna
+	fmt.Print("Masukkan ID barang: ")
+	_, err := fmt.Scanln(&barangIDInput)
+	if err != nil {
+		return fmt.Errorf("gagal membaca ID barang: %w", err)
+	}
+
+	// Meminta input jumlah stok yang ingin ditambahkan dari pengguna
+	fmt.Print("Masukkan jumlah stok yang ingin ditambahkan: ")
+	_, err = fmt.Scanln(&quantityInput)
+	if err != nil {
+		return fmt.Errorf("gagal membaca jumlah stok: %w", err)
+	}
+
+	// Konversi input menjadi tipe data uint
+	barangID, err := strconv.ParseUint(barangIDInput, 10, 32)
+	if err != nil {
+		return fmt.Errorf("ID barang tidak valid: %w", err)
+	}
+	quantity, err := strconv.ParseUint(quantityInput, 10, 32)
+	if err != nil {
+		return fmt.Errorf("jumlah stok tidak valid: %w", err)
+	}
+
+	// Panggil metode IncreaseStock dari model
+	err = bc.model.IncreaseStock(uint(barangID), uint(quantity))
+	if err != nil {
+		return fmt.Errorf("gagal menambah stok: %w", err)
+	}
+
+	fmt.Println("Stok berhasil ditambahkan.")
+	return nil
 }
