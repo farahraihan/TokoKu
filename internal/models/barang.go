@@ -25,6 +25,17 @@ func NewBarangModel(connection *gorm.DB) *BarangModel {
 	}
 }
 
+func (bm *BarangModel) GetBarang() ([]Barang, error) {
+	var barangs []Barang
+	err := bm.db.Find(&barangs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return barangs, nil
+}
+
 func (bm *BarangModel) DecreaseStock(barangID uint, quantity uint) error {
 	var barang Barang
 	if err := bm.db.First(&barang, barangID).Error; err != nil {
