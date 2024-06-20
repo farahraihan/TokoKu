@@ -1,6 +1,8 @@
 package controllers
 
-import "tokoku/internal/models"
+import (
+	"tokoku/internal/models"
+)
 
 type BarangController struct {
 	model *models.BarangModel

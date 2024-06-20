@@ -17,7 +17,7 @@ func main() {
 		return
 	}
 
-	connection.AutoMigrate(&models.Admin{}, &models.Pegawai{}, &models.Customer{}, &models.Transaksi{}, &models.Barang{}, &models.DetailTransaksi{})
+	connection.AutoMigrate(&models.Admin{}, &models.Transaksi{}, &models.Barang{}, &models.DetailTransaksi{})
 
 	// am := models.NewAdminModel(connection)
 	// ac := controllers.NewAdminController(am)
@@ -270,8 +270,8 @@ func main() {
 							fmt.Scanln(&inputMenu)
 							switch inputMenu {
 							case 1:
-								fmt.Println("Tambah data transaksi")
 								// tc.AddTransaksi()
+								fmt.Println("berhasil menambahkan aktivitas")
 							case 2:
 								fmt.Println("Edit data transaksi")
 								// tc.UpdateTransaksi()

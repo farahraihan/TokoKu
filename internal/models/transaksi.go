@@ -20,3 +20,11 @@ func NewTransaksiModel(connection *gorm.DB) *TransaksiModel {
 		db: connection,
 	}
 }
+
+func (tm *TransaksiModel) AddTransaksi(newData Transaksi) (uint, error) {
+	err := tm.db.Create(&newData).Error
+	if err != nil {
+		return 0, err
+	}
+	return newData.ID, nil
+}
