@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"tokoku/configs"
+	"tokoku/internal/controllers"
 	"tokoku/internal/models"
 	// "tokoku/internal/controllers"
 )
@@ -30,14 +31,11 @@ func main() {
 
 	
 
-	// bm := models.NewBarangModel(connection)
-	// bc := controllers.NewBarangController(bm)
+	bm := models.NewBarangModel(connection)
+	bc := controllers.NewBarangController(bm)
 
-	// dm := models.NewDetailTransaksiModel(connection,bm)
-	// dc := controllers.NewDetailTransaksiController(dm,bc)
-
-	// tm := models.NewTransaksiModel(connection)
-	// tc := controllers.NewTransaksiController(tm,dc)
+	dm := models.NewDetailTransaksiModel(connection, bm)
+	dc := controllers.NewDetailTransaksiController(dm, bc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -149,7 +147,16 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
-								// tc.AddTransaksi()
+								// Contoh penggunaan
+								transaksiID := uint(1)
+
+								// Memanggil fungsi AddDetailTransaksi dari controller
+								err = dc.AddDetailTransaksi(transaksiID)
+								if err != nil {
+									fmt.Printf("Error adding detail transaksi: %v\n", err)
+									return
+								}
+								fmt.Println("Detail transaksi berhasil ditambahkan.")
 							case 2:
 								fmt.Println("Edit data transaksi")
 								// tc.UpdateTransaksi()
@@ -272,10 +279,21 @@ func main() {
 							fmt.Scanln(&inputMenu)
 							switch inputMenu {
 							case 1:
-								// tc.AddTransaksi(1)
+								fmt.Println("Tambah data transaksi")
+								// Contoh penggunaan
+								transaksiID := uint(1)
+
+								// Memanggil fungsi AddDetailTransaksi dari controller
+								err = dc.AddDetailTransaksi(transaksiID)
+								if err != nil {
+									fmt.Printf("Error adding detail transaksi: %v\n", err)
+									return
+								}
+								fmt.Println("Detail transaksi berhasil ditambahkan.")
 							case 2:
 								fmt.Println("Edit data transaksi")
-								// tc.UpdateTransaksi()
+								dc.AddDetailTransaksi(1)
+								fmt.Println("TES DULU AJA UDAH BISA NI")
 							case 3:
 								fmt.Println("Hapus data transaksi")
 								// tc.DeleteTransaksi()

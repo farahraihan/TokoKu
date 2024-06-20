@@ -48,3 +48,11 @@ func (bm *BarangModel) IncreaseStock(barangID uint, quantity uint) error {
 	barang.Stok += quantity
 	return bm.db.Save(&barang).Error
 }
+
+func (bm *BarangModel) GetBarangByID(barangID uint) (*Barang, error) {
+	var barang Barang
+	if err := bm.db.First(&barang, barangID).Error; err != nil {
+		return nil, err
+	}
+	return &barang, nil
+}

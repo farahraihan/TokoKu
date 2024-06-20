@@ -30,3 +30,11 @@ func (bc *BarangController) IncreaseStock(barangID uint, quantity uint) error {
 	}
 	return nil
 }
+
+func (bc *BarangController) GetBarangByID(barangID uint) (*models.Barang, error) {
+	barang, err := bc.model.GetBarangByID(barangID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get barang: %w", err)
+	}
+	return barang, nil
+}
