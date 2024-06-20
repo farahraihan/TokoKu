@@ -32,11 +32,11 @@ func main() {
 	bm := models.NewBarangModel(connection)
 	bc := controllers.NewBarangController(bm)
 
-	dm := models.NewDetailTransaksiModel(connection,bm)
-	dc := controllers.NewDetailTransaksiController(dm,bc)
+	dm := models.NewDetailTransaksiModel(connection, bm)
+	dc := controllers.NewDetailTransaksiController(dm, bc)
 
 	tm := models.NewTransaksiModel(connection)
-	tc := controllers.NewTransaksiController(tm,dc)
+	tc := controllers.NewTransaksiController(tm, dc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
