@@ -302,7 +302,7 @@ func main() {
 								fmt.Println("TES DULU AJA UDAH BISA NI")
 							case 3:
 								fmt.Println("Hapus data transaksi")
-								// tc.DeleteTransaksi()
+								tc.DeleteTransaksi()
 							case 4:
 								fmt.Println("Lihat data transaksi")
 								// tc.GetTransaksi()
