@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"tokoku/internal/models"
 )
 
@@ -14,4 +15,12 @@ func NewDetailTransaksiController(m *models.DetailTransaksiModel, bc *BarangCont
 		model:            m,
 		barangController: bc,
 	}
+}
+
+func (dc *DetailTransaksiController) DeleteDetailTransaksi(transaksiID uint) error {
+	err := dc.model.DeleteDetailTransaksi(transaksiID)
+	if err != nil {
+		return fmt.Errorf("failed to delete detail transaksi: %w", err)
+	}
+	return nil
 }

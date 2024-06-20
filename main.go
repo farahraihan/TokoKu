@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"tokoku/configs"
+	"tokoku/internal/controllers"
 	"tokoku/internal/models"
-	// "tokoku/internal/controllers"
 )
 
 func main() {
@@ -31,11 +31,11 @@ func main() {
 	// tm := models.NewTransaksiModel(connection)
 	// tc := controllers.NewTransaksiController(tm)
 
-	// bm := models.NewBarangModel(connection)
-	// bc := controllers.NewBarangController(bm)
+	bm := models.NewBarangModel(connection)
+	bc := controllers.NewBarangController(bm)
 
-	// dm := models.NewDetailTransaksiModel(connection)
-	// dc := controllers.NewDetailTransaksiController(dm)
+	dm := models.NewDetailTransaksiModel(connection, bm)
+	dc := controllers.NewDetailTransaksiController(dm, bc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -153,7 +153,16 @@ func main() {
 								// tc.UpdateTransaksi()
 							case 3:
 								fmt.Println("Hapus data transaksi")
-								// tc.DeleteTransaksi()
+								// contoh
+								transaksiID := uint(1)
+
+								// Memanggil fungsi DeleteDetailTransaksi dari controller
+								err = dc.DeleteDetailTransaksi(transaksiID)
+								if err != nil {
+									fmt.Printf("Error delete detail transaksi: %v\n", err)
+									return
+								}
+								fmt.Println("Detail transaksi berhasil dihapus.")
 							case 4:
 								fmt.Println("Lihat data transaksi")
 								// tc.GetTransaksi()
