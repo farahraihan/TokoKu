@@ -36,7 +36,17 @@ func (pm *PegawaiModel) AddPegawai(newData Pegawai) (Pegawai, error) {
 	return newData, nil
 }
 
-// UpdatePegawaiByID updates a Pegawai record in the database by ID
+func (pm *PegawaiModel) GetPegawai() ([]Pegawai, error) {
+	var pegawais []Pegawai
+	err := pm.db.Find(&pegawais).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return pegawais, nil
+}
+
 func (m *PegawaiModel) UpdatePegawaiByID(id uint, newData Pegawai) error {
 	var pegawai Pegawai
 	if err := m.db.First(&pegawai, id).Error; err != nil {
