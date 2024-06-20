@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"tokoku/configs"
+	"tokoku/internal/controllers"
 	"tokoku/internal/models"
-	// "tokoku/internal/controllers"
 )
 
 func main() {
@@ -28,14 +28,14 @@ func main() {
 	// cm := models.NewCustomerModel(connection)
 	// cc := controllers.NewCustomerController(cm)
 
-	// tm := models.NewTransaksiModel(connection)
-	// tc := controllers.NewTransaksiController(tm)
-
 	// bm := models.NewBarangModel(connection)
 	// bc := controllers.NewBarangController(bm)
 
 	// dm := models.NewDetailTransaksiModel(connection, bm)
 	// dc := controllers.NewDetailTransaksiController(dm, bc)
+
+	tm := models.NewTransaksiModel(connection)
+	tc := controllers.NewTransaksiController(tm)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -60,7 +60,7 @@ func main() {
 			// username := data.Username
 
 			// contoh data.Username
-			username := "farah"
+			username := "admin"
 
 			if username == "admin" {
 				fmt.Print("\nTerdeteksi sebagai admin\n")
@@ -161,8 +161,11 @@ func main() {
 								fmt.Println("Hapus data transaksi")
 								// tc.DeleteTransaksi()
 							case 3:
-								fmt.Println("Cetak transaksi")
-								// tc.GetTransaksi()
+								// Memanggil fungsi untuk mencetak nota transaksi
+								err := tc.PrintNotaTransaksi()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+								}
 							case 4:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
@@ -278,8 +281,11 @@ func main() {
 								// tc.AddTransaksi()
 								// tc.AddDetailTransaksi
 							case 2:
-								fmt.Println("Cetak transaksi")
-								// tc.GetTransaksi()
+								// Memanggil fungsi untuk mencetak nota transaksi
+								// err := tc.PrintNotaTransaksi()
+								// if err != nil {
+								// 	fmt.Printf("Error: %v\n", err)
+								// }
 							case 3:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000

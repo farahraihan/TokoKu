@@ -1,8 +1,6 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
 
 type Transaksi struct {
 	gorm.Model
@@ -19,4 +17,12 @@ func NewTransaksiModel(connection *gorm.DB) *TransaksiModel {
 	return &TransaksiModel{
 		db: connection,
 	}
+}
+
+func (tm *TransaksiModel) GetTransaksiWithDetails(transaksiID uint) (*Transaksi, error) {
+	var transaksi Transaksi
+	if err := tm.db.Preload("DetailTransaksis").First(&transaksi, transaksiID).Error; err != nil {
+		return nil, err
+	}
+	return &transaksi, nil
 }
