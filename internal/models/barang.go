@@ -75,3 +75,24 @@ func (bm *BarangModel) AddBarang(newData Barang) (Barang, error) {
 	}
 	return newData, nil
 }
+func (bm *BarangModel) UpdateBarang(id uint, updatedData Barang) (Barang, error) {
+	var existingData Barang
+	// Cari data pelanggan berdasarkan ID
+	err := bm.db.First(&existingData, id).Error
+	if err != nil {
+		return Barang{}, err
+	}
+
+	// Update data yang ditemukan
+	existingData.Nama = updatedData.Nama
+	existingData.Stok = updatedData.Stok
+	existingData.Harga = updatedData.Harga
+
+	// Simpan data yang telah diperbarui kembali ke database
+	err = bm.db.Save(&existingData).Error
+	if err != nil {
+		return Barang{}, err
+	}
+
+	return existingData, nil
+}
