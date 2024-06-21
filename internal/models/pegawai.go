@@ -67,3 +67,16 @@ func (m *PegawaiModel) UpdatePegawaiByID(id uint, newData Pegawai) error {
 
 	return nil
 }
+
+func (pm *PegawaiModel) DeletePegawai(id uint) error {
+	var pegawai Pegawai
+	err := pm.db.First(&pegawai, id).Error
+	if err != nil {
+		return err
+	}
+	err = pm.db.Delete(&pegawai).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}

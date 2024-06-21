@@ -99,7 +99,12 @@ func main() {
 								pc.UpdatePegawai()
 							case 3:
 								fmt.Println("Hapus data pegawai")
-								// pc.DeletePegawai()
+								_, err := pc.DeletePegawai()
+								if err != nil {
+									fmt.Printf("Error delete pegawai: %v\n", err)
+									return
+								}
+								fmt.Println("Pegawai berhasil dihapus.")
 							case 4:
 								fmt.Println("Lihat data pegawai")
 								// pc.GetPegawai()

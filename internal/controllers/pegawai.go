@@ -40,3 +40,14 @@ func (pc *PegawaiController) AddPegawai() {
 
 func (c *PegawaiController) UpdatePegawai() {
 }
+
+func (pc *PegawaiController) DeletePegawai() (bool, error) {
+	var deleteData models.Pegawai
+	fmt.Print("Masukkan ID Pegawai yang ingin dihapus: ")
+	fmt.Scanln(&deleteData.ID)
+	err := pc.model.DeletePegawai(deleteData.ID)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
