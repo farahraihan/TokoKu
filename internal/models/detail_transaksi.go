@@ -27,22 +27,15 @@ func NewDetailTransaksiModel(connection *gorm.DB, barangModel *BarangModel) *Det
 }
 
 func (dm *DetailTransaksiModel) DeleteDetailTransaksi(transaksiID uint) error {
-	var detailTransaksis []DetailTransaksi
-	if err := dm.db.Where("transaksi_id = ?", transaksiID).Find(&detailTransaksis).Error; err != nil {
-		return fmt.Errorf("failed to find detail transaksi: %w", err)
+	// Hapus semua detail transaksi dari database
+	result := dm.db.Where("transaksi_id = ?", transaksiID).Delete(&DetailTransaksi{})
+	if result.Error != nil {
+		return fmt.Errorf("failed to delete detail transaksi: %w", result.Error)
 	}
 
-	for _, dt := range detailTransaksis {
-		// Kembalikan stok barang
-		err := dm.barangModel.IncreaseStock(dt.BarangID, dt.Jumlah)
-		if err != nil {
-			return fmt.Errorf("failed to increase barang stock: %w", err)
-		}
-	}
-
-	// Hapus detail transaksi dari database
-	if err := dm.db.Where("transaksi_id = ?", transaksiID).Delete(&DetailTransaksi{}).Error; err != nil {
-		return fmt.Errorf("failed to delete detail transaksi: %w", err)
+	// Pengecekan rows affected
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("no detail transaksi deleted for transaksi ID %d", transaksiID)
 	}
 
 	return nil
