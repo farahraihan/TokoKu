@@ -1,8 +1,11 @@
 package controllers
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
+	"strings"
 	"tokoku/internal/models"
 )
 
@@ -95,4 +98,42 @@ func (bc *BarangController) UpdateStock() error {
 
 	fmt.Println("Stok berhasil ditambahkan.")
 	return nil
+}
+
+func (bc *BarangController) UpdateBarang() (bool, error) {
+    var updatedData models.Barang
+	var id uint
+    reader := bufio.NewReader(os.Stdin)
+
+    fmt.Print("Masukkan ID barang yang ingin diperbarui: ")
+    _, err := fmt.Scanln(&id)
+    if err != nil {
+        return false, fmt.Errorf("gagal membaca ID barang: %w", err)
+    }
+
+    fmt.Print("Masukkan Nama Barang: ")
+    nama, err := reader.ReadString('\n')
+    if err != nil {
+        return false, fmt.Errorf("gagal membaca nama barang: %w", err)
+    }
+    updatedData.Nama = strings.TrimSpace(nama) // Menghapus spasi di awal dan akhir nama
+
+    fmt.Print("Masukkan Stok Barang: ")
+    _, err = fmt.Scanln(&updatedData.Stok)
+    if err != nil {
+        return false, fmt.Errorf("gagal membaca stok barang: %w", err)
+    }
+
+    fmt.Print("Masukkan Harga Barang: ")
+    _, err = fmt.Scanln(&updatedData.Harga)
+    if err != nil {
+        return false, fmt.Errorf("gagal membaca harga barang: %w", err)
+    }
+
+    _, err = bc.model.UpdateBarang(id, updatedData)
+    if err != nil {
+        return false, fmt.Errorf("gagal memperbarui barang: %w", err)
+    }
+
+    return true, nil
 }

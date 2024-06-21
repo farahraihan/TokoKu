@@ -202,7 +202,12 @@ func main() {
 								// bc.AddBarang()
 							case 2:
 								fmt.Println("Edit data barang")
-								// bc.UpdateBarang()
+								_, err := bc.UpdateBarang()
+								if err != nil {
+									fmt.Printf("Error Updating Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil diupdate.")
 							case 3:
 								fmt.Println("Tambah stock barang")
 								// Contoh penggunaan UpdateStock
@@ -337,7 +342,13 @@ func main() {
 								// bc.AddBarang()
 							case 2:
 								fmt.Println("Edit data barang")
-								// bc.UpdateBarang()
+								_, err := bc.UpdateBarang()
+								if err != nil {
+									fmt.Printf("Error Updating Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil diupdate.")
+
 							case 3:
 								fmt.Println("Tambah stock barang")
 								// Contoh penggunaan UpdateStock
