@@ -19,9 +19,6 @@ func main() {
 
 	connection.AutoMigrate(&models.Pegawai{}, &models.Customer{}, &models.Transaksi{}, &models.Barang{}, &models.DetailTransaksi{})
 
-	// am := models.NewAdminModel(connection)
-	// ac := controllers.NewAdminController(am)
-
 	pm := models.NewPegawaiModel(connection)
 	pc := controllers.NewPegawaiController(pm)
 
@@ -52,15 +49,15 @@ func main() {
 		switch inputMenu {
 		case 1:
 
-			// data, err := ac.Login()
-			// if err != nil {
-			// 	fmt.Println("Terjadi error pada saat login, error: ", err.Error())
-			// 	return
-			// }
-			// username := data.Username
+			data, err := pc.Login()
+			if err != nil {
+				fmt.Println("Terjadi error pada saat login, error: ", err.Error())
+				return
+			}
+			username := data.Username
 
 			// contoh data.Username
-			username := "admin"
+			// username := "admin"
 
 			if username == "admin" {
 				fmt.Print("\nTerdeteksi sebagai admin\n")
@@ -204,7 +201,7 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
-								_,err := bc.AddBarang(1)
+								_, err := bc.AddBarang(1)
 								if err != nil {
 									fmt.Printf("Error adding barang: %v\n", err)
 									return
@@ -354,7 +351,7 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
-								_,err := bc.AddBarang(1)
+								_, err := bc.AddBarang(1)
 								if err != nil {
 									fmt.Printf("Error adding barang: %v\n", err)
 									return
