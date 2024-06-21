@@ -15,11 +15,10 @@ func NewCustomerController(m *models.CustomerModel) *CustomerController {
 	}
 }
 
-func (cc *CustomerController) GetCustomer() {
+func (cc *CustomerController) GetCustomer() error {
 	customers, err := cc.model.GetCustomer()
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		return fmt.Errorf("failed to get customers: %w", err)
 	}
 
 	for _, customer := range customers {
@@ -31,9 +30,11 @@ func (cc *CustomerController) GetCustomer() {
 		fmt.Printf("Email: %s\n", customer.Email)
 		fmt.Printf("NoTelp: %s\n", customer.NoTelp)
 		fmt.Println()
-
 	}
+
+	return nil
 }
+
 func (cc *CustomerController) AddCustomer(id uint) (bool, error) {
 	var newData models.Customer
 	fmt.Print("Masukkan Username: ")

@@ -49,12 +49,12 @@ func main() {
 		switch inputMenu {
 		case 1:
 
-			data, err := pc.Login()
+			pegawai, err := pc.Login()
 			if err != nil {
 				fmt.Println("Terjadi error pada saat login, error: ", err.Error())
 				return
 			}
-			username := data.Username
+			username := pegawai.Username
 
 			if username == "admin" {
 				fmt.Print("\nTerdeteksi sebagai admin\n")
@@ -148,16 +148,47 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data customer")
-								// cc.AddCustomer()
+								fmt.Println("____________________________________")
+								_, err := cc.AddCustomer(pegawai.ID)
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Customer berhasil ditambahkan.")
+								}
+
 							case 2:
 								fmt.Println("Edit data customer")
-								// cc.UpdateCustomer()
+								fmt.Println("____________________________________")
+								_, err := cc.UpdateCustomer(pegawai.ID)
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Customer berhasil diedit")
+								}
+
 							case 3:
 								fmt.Println("Hapus data customer")
-								// cc.DeleteCustomer()
+								fmt.Println("____________________________________")
+								_, err := cc.DeleteCustomer()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Customer berhasil dihapus")
+								}
+
 							case 4:
 								fmt.Println("Lihat data customer")
-								// cc.GetCustomer()
+								fmt.Println("____________________________________")
+								err = cc.GetCustomer()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Berhasil menampilkan data customer")
+								}
 							case 5:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
