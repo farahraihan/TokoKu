@@ -70,27 +70,6 @@ func (pm *PegawaiModel) GetPegawai() ([]Pegawai, error) {
 	return pegawais, nil
 }
 
-func (m *PegawaiModel) UpdatePegawaiByID(id uint, newData Pegawai) error {
-	var pegawai Pegawai
-	if err := m.db.First(&pegawai, id).Error; err != nil {
-		return err
-	}
-
-	// Update the fields that are allowed to be updated
-	pegawai.Username = newData.Username
-	pegawai.Nama = newData.Nama
-	pegawai.Gender = newData.Gender
-	pegawai.NoTelp = newData.NoTelp
-	pegawai.Email = newData.Email
-	pegawai.Password = newData.Password
-
-	if err := m.db.Save(&pegawai).Error; err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (pm *PegawaiModel) DeletePegawai(id uint) error {
 	var pegawai Pegawai
 	err := pm.db.First(&pegawai, id).Error
@@ -102,4 +81,29 @@ func (pm *PegawaiModel) DeletePegawai(id uint) error {
 		return err
 	}
 	return nil
+}
+
+func (pm *PegawaiModel) UpdatePegawai(id uint, updatedData Pegawai) (Pegawai, error) {
+	// Cari pegawai berdasarkan ID
+	var pegawai Pegawai
+	err := pm.db.First(&pegawai, id).Error
+	if err != nil {
+		return Pegawai{}, err
+	}
+
+	// Update data pegawai
+	pegawai.Username = updatedData.Username
+	pegawai.Nama = updatedData.Nama
+	pegawai.Gender = updatedData.Gender
+	pegawai.NoTelp = updatedData.NoTelp
+	pegawai.Email = updatedData.Email
+	pegawai.Password = updatedData.Password
+
+	// Simpan perubahan ke dalam database
+	err = pm.db.Save(&pegawai).Error
+	if err != nil {
+		return Pegawai{}, err
+	}
+
+	return pegawai, nil
 }
