@@ -420,6 +420,7 @@ func main() {
 							fmt.Println("3. Keluar")
 							fmt.Print("Masukkan input: ")
 							fmt.Scanln(&inputMenu)
+
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")

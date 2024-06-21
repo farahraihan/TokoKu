@@ -96,7 +96,6 @@ func (bc *BarangController) UpdateStock() error {
 		return fmt.Errorf("gagal menambah stok: %w", err)
 	}
 
-	fmt.Println("Stok berhasil ditambahkan.")
 	return nil
 }
 
