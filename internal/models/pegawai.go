@@ -28,6 +28,15 @@ func NewPegawaiModel(connection *gorm.DB) *PegawaiModel {
 	}
 }
 
+func (pm *PegawaiModel) Login(username string, password string) (Pegawai, error) {
+	var result Pegawai
+	err := pm.db.Where("username = ? AND password = ?", username, password).First(&result).Error
+	if err != nil {
+		return Pegawai{}, err
+	}
+	return result, nil
+}
+
 func (pm *PegawaiModel) AddPegawai(newData Pegawai) (Pegawai, error) {
 	err := pm.db.Create(&newData).Error
 	if err != nil {

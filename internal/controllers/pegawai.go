@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
 	"tokoku/internal/models"
 )
@@ -13,6 +14,19 @@ func NewPegawaiController(m *models.PegawaiModel) *PegawaiController {
 	return &PegawaiController{
 		model: m,
 	}
+}
+
+func (pc *PegawaiController) Login() (models.Pegawai, error) {
+	var username, password string
+	fmt.Print("Masukkan username : ")
+	fmt.Scanln(&username)
+	fmt.Print("Masukkan password : ")
+	fmt.Scanln(&password)
+	result, err := pc.model.Login(username, password)
+	if err != nil {
+		return models.Pegawai{}, errors.New("terjadi masalah ketika login")
+	}
+	return result, nil
 }
 
 func (pc *PegawaiController) GetPegawai() {
