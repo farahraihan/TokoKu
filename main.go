@@ -210,25 +210,41 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
-								// Contoh penggunaan
-								transaksiID := uint(1)
+								fmt.Println("____________________________________")
+								// transaksiID, err = tc.AddTransaksi(pegawai.ID)
+								// if err != nil {
+								// 	fmt.Printf("Error: %v\n", err)
+								// 	return
+								// } else {
+								// 	fmt.Println("Transaksi berhasil ditambahkan")
+								// 	err = dc.AddDetailTransaksi(transaksiID)
+								// 	if err != nil {
+								// 		fmt.Printf("Error: %v\n", err)
+								// 		return
+								// 	}
+								// 	fmt.Println("Detail transaksi berhasil ditambahkan.")
+								// }
 
-								// Memanggil fungsi AddDetailTransaksi dari controller
-								err = dc.AddDetailTransaksi(transaksiID)
-								if err != nil {
-									fmt.Printf("Error adding detail transaksi: %v\n", err)
-									return
-								}
-								fmt.Println("Detail transaksi berhasil ditambahkan.")
-								// tc.AddTransaksi()
-								// tc.AddDetailTransaksi
 							case 2:
 								fmt.Println("Hapus data transaksi")
-								// tc.DeleteTransaksi()
+								fmt.Println("____________________________________")
+								_, err := tc.DeleteTransaksi()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Transaksi berhasil dihapus")
+								}
+
 							case 3:
+								fmt.Println("Cetak nota transaksi")
+								fmt.Println("____________________________________")
 								err := tc.PrintNotaTransaksi()
 								if err != nil {
 									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Berhasil menampilkan nota transaksi")
 								}
 							case 4:
 								fmt.Println("TERIMAKASIH ^_^ !")
