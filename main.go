@@ -378,16 +378,9 @@ func main() {
 							case 1:
 								fmt.Println("Tambah data transaksi")
 								// Add Transaksi dengan contoh id pegawai/admin
-								transaksiID, err := tc.AddTransaksi(1)
+								_, err := tc.AddTransaksi(1)
 								if err != nil {
 									fmt.Printf("Error adding transaksi: %v\n", err)
-									return
-								}
-
-								// Memanggil fungsi AddDetailTransaksi dari controller
-								err = dc.AddDetailTransaksi(transaksiID)
-								if err != nil {
-									fmt.Printf("Error adding detail transaksi: %v\n", err)
 									return
 								}
 								fmt.Println("Detail transaksi berhasil ditambahkan.")
