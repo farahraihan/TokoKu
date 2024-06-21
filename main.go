@@ -5,7 +5,6 @@ import (
 	"tokoku/configs"
 	"tokoku/internal/controllers"
 	"tokoku/internal/models"
-	// "tokoku/internal/controllers"
 )
 
 func main() {
@@ -20,9 +19,6 @@ func main() {
 
 	connection.AutoMigrate(&models.Pegawai{}, &models.Customer{}, &models.Transaksi{}, &models.Barang{}, &models.DetailTransaksi{})
 
-	// am := models.NewAdminModel(connection)
-	// ac := controllers.NewAdminController(am)
-
 	pm := models.NewPegawaiModel(connection)
 	pc := controllers.NewPegawaiController(pm)
 
@@ -36,7 +32,7 @@ func main() {
 	dc := controllers.NewDetailTransaksiController(dm, bc)
 
 	tm := models.NewTransaksiModel(connection)
-	tc := controllers.NewTransaksiController(tm, dc)
+	tc := controllers.NewTransaksiController(tm, bm, dc)
 
 	fmt.Print("\nSELAMAT DATANG DI LAMAN TOKOKU ! ^_^\n")
 	fmt.Println("____________________________________")
@@ -53,15 +49,12 @@ func main() {
 		switch inputMenu {
 		case 1:
 
-			// data, err := ac.Login()
-			// if err != nil {
-			// 	fmt.Println("Terjadi error pada saat login, error: ", err.Error())
-			// 	return
-			// }
-			// username := data.Username
-
-			// contoh data.Username
-			username := "admin"
+			data, err := pc.Login()
+			if err != nil {
+				fmt.Println("Terjadi error pada saat login, error: ", err.Error())
+				return
+			}
+			username := data.Username
 
 			if username == "admin" {
 				fmt.Print("\nTerdeteksi sebagai admin\n")
@@ -93,14 +86,30 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data pegawai")
-								pc.AddPegawai()
+								// Panggil fungsi AddPegawai untuk menambah pegawai baru
+								err = pc.AddPegawai()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+								} else {
+									fmt.Println("Pegawai berhasil ditambahkan.")
+								}
 
 							case 2:
 								fmt.Println("Edit data pegawai")
-								// pc.UpdatePegawai()
+								// Contoh: Update pegawai
+								err = pc.UpdatePegawai()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								}
 							case 3:
 								fmt.Println("Hapus data pegawai")
-								// pc.DeletePegawai()
+								_, err := pc.DeletePegawai()
+								if err != nil {
+									fmt.Printf("Error delete pegawai: %v\n", err)
+									return
+								}
+								fmt.Println("Pegawai berhasil dihapus.")
 							case 4:
 								fmt.Println("Lihat data pegawai")
 								// pc.GetPegawai()
@@ -173,8 +182,10 @@ func main() {
 								fmt.Println("Hapus data transaksi")
 								// tc.DeleteTransaksi()
 							case 3:
-								fmt.Println("Cetak transaksi")
-								// tc.GetTransaksi()
+								err := tc.PrintNotaTransaksi()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+								}
 							case 4:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
@@ -198,16 +209,35 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
-								// bc.AddBarang()
+								_, err := bc.AddBarang(1)
+								if err != nil {
+									fmt.Printf("Error adding barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil ditambahkan.")
 							case 2:
 								fmt.Println("Edit data barang")
-								// bc.UpdateBarang()
+								_, err := bc.UpdateBarang()
+								if err != nil {
+									fmt.Printf("Error Updating Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil diupdate.")
 							case 3:
 								fmt.Println("Tambah stock barang")
-								// bc.UpdateStokBarang()
+								// Contoh penggunaan UpdateStock
+								err = bc.UpdateStock()
+								if err != nil {
+									fmt.Println("Error:", err)
+								}
 							case 4:
 								fmt.Println("Hapus data barang")
-								// bc.DeleteBarang()
+								_, err := bc.DeleteBarang()
+								if err != nil {
+									fmt.Printf("Error Delete Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil dihapus.")
 							case 5:
 								fmt.Println("Lihat data barang")
 								// bc.GetBarang()
@@ -302,8 +332,10 @@ func main() {
 								}
 								fmt.Println("Detail transaksi berhasil ditambahkan.")
 							case 2:
-								fmt.Println("Cetak transaksi")
-								// tc.GetTransaksi()
+								err := tc.PrintNotaTransaksi()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+								}
 							case 3:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
@@ -327,16 +359,37 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
-								// bc.AddBarang()
+								_, err := bc.AddBarang(1)
+								if err != nil {
+									fmt.Printf("Error adding barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil ditambahkan.")
 							case 2:
 								fmt.Println("Edit data barang")
-								// bc.UpdateBarang()
+								_, err := bc.UpdateBarang()
+								if err != nil {
+									fmt.Printf("Error Updating Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil diupdate.")
+
 							case 3:
 								fmt.Println("Tambah stock barang")
-								// bc.UpdateStokBarang()
+								// Contoh penggunaan UpdateStock
+								err = bc.UpdateStock()
+								if err != nil {
+									fmt.Println("Error:", err)
+								}
+
 							case 4:
 								fmt.Println("Hapus data barang")
-								// bc.DeleteBarang()
+								_, err := bc.DeleteBarang()
+								if err != nil {
+									fmt.Printf("Error Delete Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil dihapus.")
 							case 5:
 								fmt.Println("Lihat data barang")
 								// bc.GetBarang()

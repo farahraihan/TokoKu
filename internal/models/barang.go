@@ -25,6 +25,17 @@ func NewBarangModel(connection *gorm.DB) *BarangModel {
 	}
 }
 
+func (bm *BarangModel) GetBarang() ([]Barang, error) {
+	var barangs []Barang
+	err := bm.db.Find(&barangs).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return barangs, nil
+}
+
 func (bm *BarangModel) DecreaseStock(barangID uint, quantity uint) error {
 	var barang Barang
 	if err := bm.db.First(&barang, barangID).Error; err != nil {
@@ -55,4 +66,45 @@ func (bm *BarangModel) GetBarangByID(barangID uint) (*Barang, error) {
 		return nil, err
 	}
 	return &barang, nil
+}
+
+func (bm *BarangModel) AddBarang(newData Barang) (Barang, error) {
+	err := bm.db.Create(&newData).Error
+	if err != nil {
+		return Barang{}, err
+	}
+	return newData, nil
+}
+func (bm *BarangModel) UpdateBarang(id uint, updatedData Barang) (Barang, error) {
+	var existingData Barang
+	// Cari data pelanggan berdasarkan ID
+	err := bm.db.First(&existingData, id).Error
+	if err != nil {
+		return Barang{}, err
+	}
+
+	// Update data yang ditemukan
+	existingData.Nama = updatedData.Nama
+	existingData.Stok = updatedData.Stok
+	existingData.Harga = updatedData.Harga
+
+	// Simpan data yang telah diperbarui kembali ke database
+	err = bm.db.Save(&existingData).Error
+	if err != nil {
+		return Barang{}, err
+	}
+
+	return existingData, nil
+}
+func (bm *BarangModel) DeleteBarang(id uint) error {
+	var barang Barang
+	err := bm.db.First(&barang, id).Error
+	if err != nil {
+		return err
+	}
+	err = bm.db.Delete(&barang).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
