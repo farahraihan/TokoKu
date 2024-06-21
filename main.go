@@ -131,6 +131,7 @@ func main() {
 								inputMenu = 1000
 							default:
 								fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
+								return
 							}
 						}
 
@@ -194,6 +195,7 @@ func main() {
 								inputMenu = 1000
 							default:
 								fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
+								return
 							}
 						}
 
@@ -211,19 +213,13 @@ func main() {
 							case 1:
 								fmt.Println("Tambah data transaksi")
 								fmt.Println("____________________________________")
-								// transaksiID, err = tc.AddTransaksi(pegawai.ID)
-								// if err != nil {
-								// 	fmt.Printf("Error: %v\n", err)
-								// 	return
-								// } else {
-								// 	fmt.Println("Transaksi berhasil ditambahkan")
-								// 	err = dc.AddDetailTransaksi(transaksiID)
-								// 	if err != nil {
-								// 		fmt.Printf("Error: %v\n", err)
-								// 		return
-								// 	}
-								// 	fmt.Println("Detail transaksi berhasil ditambahkan.")
-								// }
+								_, err = tc.AddTransaksi(pegawai.ID)
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Transaksi berhasil ditambahkan")
+								}
 
 							case 2:
 								fmt.Println("Hapus data transaksi")
@@ -244,13 +240,14 @@ func main() {
 									fmt.Printf("Error: %v\n", err)
 									return
 								} else {
-									fmt.Println("Berhasil menampilkan nota transaksi")
+									fmt.Print("\nBerhasil menampilkan nota transaksi\n\n")
 								}
 							case 4:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
 							default:
 								fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
+								return
 							}
 						}
 
@@ -269,43 +266,60 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
+								fmt.Println("____________________________________")
 								_, err := bc.AddBarang(1)
 								if err != nil {
-									fmt.Printf("Error adding barang: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
 								}
 								fmt.Println("Barang berhasil ditambahkan.")
+
 							case 2:
 								fmt.Println("Edit data barang")
+								fmt.Println("____________________________________")
 								_, err := bc.UpdateBarang()
 								if err != nil {
-									fmt.Printf("Error Updating Barang: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
 								}
 								fmt.Println("Barang berhasil diupdate.")
+
 							case 3:
 								fmt.Println("Tambah stock barang")
-								// Contoh penggunaan UpdateStock
+								fmt.Println("____________________________________")
 								err = bc.UpdateStock()
 								if err != nil {
-									fmt.Println("Error:", err)
+									fmt.Printf("Error: %v\n", err)
 								}
+								fmt.Println("Stok barang berhasil ditambahkan")
+
 							case 4:
 								fmt.Println("Hapus data barang")
+								fmt.Println("____________________________________")
 								_, err := bc.DeleteBarang()
 								if err != nil {
-									fmt.Printf("Error Delete Barang: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
 								}
 								fmt.Println("Barang berhasil dihapus.")
+
 							case 5:
 								fmt.Println("Lihat data barang")
-								// bc.GetBarang()
+								fmt.Println("____________________________________")
+								err := bc.GetBarang()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil ditampilkan.")
+
 							case 6:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
+
 							default:
 								fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
+								return
 							}
 						}
 
@@ -347,21 +361,53 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data customer")
-								// cc.AddCustomer()
+								fmt.Println("____________________________________")
+								_, err := cc.AddCustomer(pegawai.ID)
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Customer berhasil ditambahkan.")
+								}
+
 							case 2:
 								fmt.Println("Edit data customer")
-								// cc.UpdateCustomer()
+								fmt.Println("____________________________________")
+								_, err := cc.UpdateCustomer()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Customer berhasil diedit")
+								}
+
 							case 3:
 								fmt.Println("Hapus data customer")
-								// cc.DeleteCustomer()
+								fmt.Println("____________________________________")
+								_, err := cc.DeleteCustomer()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Customer berhasil dihapus")
+								}
+
 							case 4:
 								fmt.Println("Lihat data customer")
-								// cc.GetCustomer()
+								fmt.Println("____________________________________")
+								err = cc.GetCustomer()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Berhasil menampilkan data customer")
+								}
 							case 5:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
 							default:
 								fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
+								return
 							}
 						}
 
@@ -377,23 +423,33 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data transaksi")
-								// Add Transaksi dengan contoh id pegawai/admin
-								_, err := tc.AddTransaksi(1)
+								fmt.Println("____________________________________")
+								_, err = tc.AddTransaksi(pegawai.ID)
 								if err != nil {
-									fmt.Printf("Error adding transaksi: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
+								} else {
+									fmt.Println("Transaksi berhasil ditambahkan")
 								}
-								fmt.Println("Detail transaksi berhasil ditambahkan.")
+
 							case 2:
+								fmt.Println("Cetak nota transaksi")
+								fmt.Println("____________________________________")
 								err := tc.PrintNotaTransaksi()
 								if err != nil {
 									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Print("\nBerhasil menampilkan nota transaksi\n\n")
 								}
+
 							case 3:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
+
 							default:
 								fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
+								return
 							}
 						}
 
@@ -412,45 +468,60 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
+								fmt.Println("____________________________________")
 								_, err := bc.AddBarang(1)
 								if err != nil {
-									fmt.Printf("Error adding barang: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
 								}
 								fmt.Println("Barang berhasil ditambahkan.")
+
 							case 2:
 								fmt.Println("Edit data barang")
+								fmt.Println("____________________________________")
 								_, err := bc.UpdateBarang()
 								if err != nil {
-									fmt.Printf("Error Updating Barang: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
 								}
 								fmt.Println("Barang berhasil diupdate.")
 
 							case 3:
 								fmt.Println("Tambah stock barang")
-								// Contoh penggunaan UpdateStock
+								fmt.Println("____________________________________")
 								err = bc.UpdateStock()
 								if err != nil {
-									fmt.Println("Error:", err)
+									fmt.Printf("Error: %v\n", err)
 								}
+								fmt.Println("Stok barang berhasil ditambahkan")
 
 							case 4:
 								fmt.Println("Hapus data barang")
+								fmt.Println("____________________________________")
 								_, err := bc.DeleteBarang()
 								if err != nil {
-									fmt.Printf("Error Delete Barang: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
 								}
 								fmt.Println("Barang berhasil dihapus.")
+
 							case 5:
 								fmt.Println("Lihat data barang")
-								// bc.GetBarang()
+								fmt.Println("____________________________________")
+								err := bc.GetBarang()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil ditampilkan.")
+
 							case 6:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
+
 							default:
 								fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
+								return
 							}
 						}
 
@@ -460,8 +531,9 @@ func main() {
 
 					default:
 						fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
-
+						return
 					}
+
 				}
 
 			}
@@ -472,7 +544,7 @@ func main() {
 
 		default:
 			fmt.Print("\nInput tidak valid ! pastikan hanya menulis angka\n")
-
+			return
 		}
 	}
 }

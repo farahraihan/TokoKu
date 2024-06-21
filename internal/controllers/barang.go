@@ -19,11 +19,10 @@ func NewBarangController(m *models.BarangModel) *BarangController {
 	}
 }
 
-func (bc *BarangController) GetBarang() {
+func (bc *BarangController) GetBarang() error {
 	barangs, err := bc.model.GetBarang()
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		return fmt.Errorf("failed to get barangs: %w", err)
 	}
 
 	for _, barang := range barangs {
@@ -34,8 +33,9 @@ func (bc *BarangController) GetBarang() {
 		fmt.Printf("Stok: %d\n", barang.Stok)
 		fmt.Printf("Harga: %.2f\n", barang.Harga)
 		fmt.Println()
-
 	}
+
+	return nil
 }
 
 func (bc *BarangController) DecreaseStock(barangID uint, quantity uint) error {
@@ -101,73 +101,73 @@ func (bc *BarangController) UpdateStock() error {
 }
 
 func (bc *BarangController) AddBarang(id uint) (bool, error) {
-    var newData models.Barang
-    reader := bufio.NewReader(os.Stdin)
+	var newData models.Barang
+	reader := bufio.NewReader(os.Stdin)
 
-    fmt.Print("Masukkan Nama: ")
+	fmt.Print("Masukkan Nama: ")
 	nama, err := reader.ReadString('\n')
-    if err != nil {
-        return false, fmt.Errorf("gagal membaca nama barang: %w", err)
-    }
-    newData.Nama = strings.TrimSpace(nama) // Menghapus spasi di awal dan akhir nama
-
-    fmt.Print("Masukkan Stok: ")
-    _, err = fmt.Scanln(&newData.Stok)
-    if err != nil {
-        return false, fmt.Errorf("gagal membaca stok: %w", err)
-    }
-
-    fmt.Print("Masukkan Harga: ")
-    _, err = fmt.Scanln(&newData.Harga)
-    if err != nil {
-        return false, fmt.Errorf("gagal membaca harga: %w", err)
-    }
-
-    newData.PegawaiID = id
-
-    _, err = bc.model.AddBarang(newData)
-    if err != nil {
-    	return false, fmt.Errorf("gagal menambah barang: %w", err)
+	if err != nil {
+		return false, fmt.Errorf("gagal membaca nama barang: %w", err)
 	}
-    return true, nil
+	newData.Nama = strings.TrimSpace(nama) // Menghapus spasi di awal dan akhir nama
+
+	fmt.Print("Masukkan Stok: ")
+	_, err = fmt.Scanln(&newData.Stok)
+	if err != nil {
+		return false, fmt.Errorf("gagal membaca stok: %w", err)
+	}
+
+	fmt.Print("Masukkan Harga: ")
+	_, err = fmt.Scanln(&newData.Harga)
+	if err != nil {
+		return false, fmt.Errorf("gagal membaca harga: %w", err)
+	}
+
+	newData.PegawaiID = id
+
+	_, err = bc.model.AddBarang(newData)
+	if err != nil {
+		return false, fmt.Errorf("gagal menambah barang: %w", err)
+	}
+	return true, nil
 }
-	
+
 func (bc *BarangController) UpdateBarang() (bool, error) {
-    var updatedData models.Barang
+	var updatedData models.Barang
 	var id uint
-    reader := bufio.NewReader(os.Stdin)
+	reader := bufio.NewReader(os.Stdin)
 
-    fmt.Print("Masukkan ID barang yang ingin diperbarui: ")
-    _, err := fmt.Scanln(&id)
-    if err != nil {
-        return false, fmt.Errorf("gagal membaca ID barang: %w", err)
-    }
+	fmt.Print("Masukkan ID barang yang ingin diperbarui: ")
+	_, err := fmt.Scanln(&id)
+	if err != nil {
+		return false, fmt.Errorf("gagal membaca ID barang: %w", err)
+	}
 
-    fmt.Print("Masukkan Nama Barang: ")
-    nama, err := reader.ReadString('\n')
-    if err != nil {
-        return false, fmt.Errorf("gagal membaca nama barang: %w", err)
-    }
-    updatedData.Nama = strings.TrimSpace(nama) // Menghapus spasi di awal dan akhir nama
+	fmt.Print("Masukkan Nama Barang: ")
+	nama, err := reader.ReadString('\n')
+	if err != nil {
+		return false, fmt.Errorf("gagal membaca nama barang: %w", err)
+	}
+	updatedData.Nama = strings.TrimSpace(nama) // Menghapus spasi di awal dan akhir nama
 
-    fmt.Print("Masukkan Stok Barang: ")
-    _, err = fmt.Scanln(&updatedData.Stok)
-    if err != nil {
-        return false, fmt.Errorf("gagal membaca stok barang: %w", err)
-    }
+	fmt.Print("Masukkan Stok Barang: ")
+	_, err = fmt.Scanln(&updatedData.Stok)
+	if err != nil {
+		return false, fmt.Errorf("gagal membaca stok barang: %w", err)
+	}
 
-    fmt.Print("Masukkan Harga Barang: ")
-    _, err = fmt.Scanln(&updatedData.Harga)
-    if err != nil {
-        return false, fmt.Errorf("gagal membaca harga barang: %w", err)
-    }
+	fmt.Print("Masukkan Harga Barang: ")
+	_, err = fmt.Scanln(&updatedData.Harga)
+	if err != nil {
+		return false, fmt.Errorf("gagal membaca harga barang: %w", err)
+	}
 
-    _, err = bc.model.UpdateBarang(id, updatedData)
-    if err != nil {
-        return false, fmt.Errorf("gagal memperbarui barang: %w", err)
-    }
+	_, err = bc.model.UpdateBarang(id, updatedData)
+	if err != nil {
+		return false, fmt.Errorf("gagal memperbarui barang: %w", err)
+	}
 
-    return true, nil
+	return true, nil
 }
 func (bc *BarangController) DeleteBarang() (bool, error) {
 	var deleteData models.Barang
