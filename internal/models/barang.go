@@ -67,3 +67,11 @@ func (bm *BarangModel) GetBarangByID(barangID uint) (*Barang, error) {
 	}
 	return &barang, nil
 }
+
+func (bm *BarangModel) AddBarang(newData Barang) (Barang, error) {
+	err := bm.db.Create(&newData).Error
+	if err != nil {
+		return Barang{}, err
+	}
+	return newData, nil
+}

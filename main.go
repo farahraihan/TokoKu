@@ -199,7 +199,12 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
-								// bc.AddBarang()
+								_,err := bc.AddBarang(1)
+								if err != nil {
+									fmt.Printf("Error adding barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil ditambahkan.")
 							case 2:
 								fmt.Println("Edit data barang")
 								// bc.UpdateBarang()
@@ -334,7 +339,12 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data barang")
-								// bc.AddBarang()
+								_,err := bc.AddBarang(1)
+								if err != nil {
+									fmt.Printf("Error adding barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil ditambahkan.")
 							case 2:
 								fmt.Println("Edit data barang")
 								// bc.UpdateBarang()
