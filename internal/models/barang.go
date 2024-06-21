@@ -96,3 +96,15 @@ func (bm *BarangModel) UpdateBarang(id uint, updatedData Barang) (Barang, error)
 
 	return existingData, nil
 }
+func (bm *BarangModel) DeleteBarang(id uint) error {
+	var barang Barang
+	err := bm.db.First(&barang, id).Error
+	if err != nil {
+		return err
+	}
+	err = bm.db.Delete(&barang).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}

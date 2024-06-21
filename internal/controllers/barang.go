@@ -169,3 +169,13 @@ func (bc *BarangController) UpdateBarang() (bool, error) {
 
     return true, nil
 }
+func (bc *BarangController) DeleteBarang() (bool, error) {
+	var deleteData models.Barang
+	fmt.Print("Masukkan ID Barang yang ingin dihapus: ")
+	fmt.Scanln(&deleteData.ID)
+	err := bc.model.DeleteBarang(deleteData.ID)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

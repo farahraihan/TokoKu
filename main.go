@@ -222,7 +222,12 @@ func main() {
 								}
 							case 4:
 								fmt.Println("Hapus data barang")
-								// bc.DeleteBarang()
+								_, err := bc.DeleteBarang()
+								if err != nil {
+									fmt.Printf("Error Delete Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil dihapus.")
 							case 5:
 								fmt.Println("Lihat data barang")
 								// bc.GetBarang()
@@ -369,7 +374,12 @@ func main() {
 
 							case 4:
 								fmt.Println("Hapus data barang")
-								// bc.DeleteBarang()
+								_, err := bc.DeleteBarang()
+								if err != nil {
+									fmt.Printf("Error Delete Barang: %v\n", err)
+									return
+								}
+								fmt.Println("Barang berhasil dihapus.")
 							case 5:
 								fmt.Println("Lihat data barang")
 								// bc.GetBarang()
