@@ -57,7 +57,8 @@ func (cc *CustomerController) AddCustomer(id uint) (bool, error) {
 	return true, nil
 }
 
-func (cc *CustomerController) UpdateCustomer(id uint) (bool, error) {
+func (cc *CustomerController) UpdateCustomer() (bool, error) {
+	var id uint
 	var updatedData models.Customer
 	fmt.Print("Masukkan ID customer yang ingin diperbarui: ")
 	fmt.Scanln(&id)

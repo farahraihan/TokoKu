@@ -160,7 +160,7 @@ func main() {
 							case 2:
 								fmt.Println("Edit data customer")
 								fmt.Println("____________________________________")
-								_, err := cc.UpdateCustomer(pegawai.ID)
+								_, err := cc.UpdateCustomer()
 								if err != nil {
 									fmt.Printf("Error: %v\n", err)
 									return
