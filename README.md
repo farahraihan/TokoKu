@@ -16,19 +16,19 @@ Tokoku adalah sebuah aplikasi yang digunakan untuk mencatat kegiatan transaksi d
 
 ### `configs`
 
-Memuat code yang bertujuan untuk persiapan dan konfigurasi segala sesuatu yang dibutuhkan project untuk beroperasi
+Memuat code yang bertujuan untuk konfigurasi ke database
 
 ### `internal`
 
-Berisi rangkaian utama code yang digunakan dalam project. Biasanya masih terdapat beberapa folder lagi untuk mengakomodir keperluan struktur project yang diadopsi
+Berisi rangkaian utama code yang digunakan dalam project. 
 
 ### `controllers`
 
-Berisi code yang mencakup fungsi fitur yang diakomodasi oleh program. Dalam folder ini, setiap fitur biasanya dibagi dalam file-file sesuai dengan konteks masing-masing. Contoh `user.go` akan memuat segala fungsi program yang berkaitan dengan data user misalnya login dan register.
+Berisi code yang mencakup fungsi fitur yang diakomodasi oleh program. Dalam folder ini, setiap fitur terbagi dalam beberapa file yaitu : pegawai.go, barang.go, customer.go, transaksi.go, detail_transaksi.go.
 
 ### `models`
 
-Berisi code yang bertugas untuk berhubungan dengan database. Code yang diletakkan dalam folder ini sangat spesifik digunakan untuk bersinggungan dengan database, segala sesuatau yang berhubungan dengan ORM dan database dilakukan pada folder ini. 
+Berisi code yang bertugas untuk berhubungan dengan database. Code yang diletakkan dalam folder ini sangat spesifik digunakan untuk bersinggungan dengan database, segala sesuatau yang berhubungan dengan ORM dan database dilakukan pada folder ini. Folder ini terbagi lagi ke dalam beberapa file yaitu : pegawai.go, barang.go, customer.go, transaksi.go, detail_transaksi.go.
 
 ## Fitur
 Berikut fitur prioritas untuk memenuhi kriteria MVP (Minimum Viable Product):
