@@ -89,11 +89,17 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data pegawai")
-								pc.AddPegawai()
+								// Panggil fungsi AddPegawai untuk menambah pegawai baru
+								err = pc.AddPegawai()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+								} else {
+									fmt.Println("Pegawai berhasil ditambahkan.")
+								}
 
 							case 2:
 								fmt.Println("Edit data pegawai")
-								pc.UpdatePegawai()
+								// pc.UpdatePegawai()
 							case 3:
 								fmt.Println("Hapus data pegawai")
 								_, err := pc.DeletePegawai()

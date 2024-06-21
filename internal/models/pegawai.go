@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -38,10 +40,22 @@ func (pm *PegawaiModel) Login(username string, password string) (Pegawai, error)
 }
 
 func (pm *PegawaiModel) AddPegawai(newData Pegawai) (Pegawai, error) {
-	err := pm.db.Create(&newData).Error
-	if err != nil {
-		return Pegawai{}, err
+	// Validasi data
+	if newData.Username == "" || newData.Nama == "" || newData.Email == "" || newData.Password == "" {
+		return Pegawai{}, errors.New("semua field wajib diisi")
 	}
+
+	// Tambahkan pegawai baru
+	result := pm.db.Create(&newData)
+	if result.Error != nil {
+		return Pegawai{}, result.Error
+	}
+
+	// Cek jumlah baris yang terpengaruh
+	if result.RowsAffected == 0 {
+		return Pegawai{}, errors.New("gagal menambahkan pegawai")
+	}
+
 	return newData, nil
 }
 
