@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	"gorm.io/gorm"
 )
 
@@ -29,31 +31,21 @@ func NewPegawaiModel(connection *gorm.DB) *PegawaiModel {
 }
 
 func (pm *PegawaiModel) AddPegawai(newData Pegawai) (Pegawai, error) {
-	err := pm.db.Create(&newData).Error
-	if err != nil {
-		return Pegawai{}, err
+	// Validasi data
+	if newData.Username == "" || newData.Nama == "" || newData.Email == "" || newData.Password == "" {
+		return Pegawai{}, errors.New("semua field wajib diisi")
 	}
+
+	// Tambahkan pegawai baru
+	result := pm.db.Create(&newData)
+	if result.Error != nil {
+		return Pegawai{}, result.Error
+	}
+
+	// Cek jumlah baris yang terpengaruh
+	if result.RowsAffected == 0 {
+		return Pegawai{}, errors.New("gagal menambahkan pegawai")
+	}
+
 	return newData, nil
-}
-
-// UpdatePegawaiByID updates a Pegawai record in the database by ID
-func (m *PegawaiModel) UpdatePegawaiByID(id uint, newData Pegawai) error {
-	var pegawai Pegawai
-	if err := m.db.First(&pegawai, id).Error; err != nil {
-		return err
-	}
-
-	// Update the fields that are allowed to be updated
-	pegawai.Username = newData.Username
-	pegawai.Nama = newData.Nama
-	pegawai.Gender = newData.Gender
-	pegawai.NoTelp = newData.NoTelp
-	pegawai.Email = newData.Email
-	pegawai.Password = newData.Password
-
-	if err := m.db.Save(&pegawai).Error; err != nil {
-		return err
-	}
-
-	return nil
 }
