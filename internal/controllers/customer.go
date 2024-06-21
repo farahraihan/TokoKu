@@ -15,6 +15,25 @@ func NewCustomerController(m *models.CustomerModel) *CustomerController {
 	}
 }
 
+func (cc *CustomerController) GetCustomer() {
+	customers, err := cc.model.GetCustomer()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	for _, customer := range customers {
+		fmt.Println("----------------------------------")
+		fmt.Printf("ID: %d\n", customer.ID)
+		fmt.Printf("PegawaiID: %d\n", customer.PegawaiID)
+		fmt.Printf("Username: %s\n", customer.Username)
+		fmt.Printf("Nama: %s\n", customer.Nama)
+		fmt.Printf("Email: %s\n", customer.Email)
+		fmt.Printf("NoTelp: %s\n", customer.NoTelp)
+		fmt.Println()
+
+	}
+}
 func (cc *CustomerController) AddCustomer(id uint) (bool, error) {
 	var newData models.Customer
 	fmt.Print("Masukkan Username: ")
@@ -24,7 +43,7 @@ func (cc *CustomerController) AddCustomer(id uint) (bool, error) {
 	fmt.Print("Masukkan Email: ")
 	// Membersihkan newline dari buffer
 	fmt.Scanln()
-	
+
 	fmt.Scanln(&newData.Email)
 	fmt.Print("Masukkan nomor telepon: ")
 	fmt.Scanln(&newData.NoTelp)
@@ -48,17 +67,16 @@ func (cc *CustomerController) UpdateCustomer(id uint) (bool, error) {
 	fmt.Print("Masukkan Email: ")
 	// Membersihkan newline dari buffer
 	fmt.Scanln()
-	
+
 	fmt.Scanln(&updatedData.Email)
 	fmt.Print("Masukkan nomor telepon: ")
 	fmt.Scanln(&updatedData.NoTelp)
 
-	
 	_, err := cc.model.UpdateCustomer(id, updatedData)
-    if err != nil {
-        return false, err
-    }
-    return true, nil
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
 func (cc *CustomerController) DeleteCustomer() (bool, error) {
 	var deleteData models.Customer

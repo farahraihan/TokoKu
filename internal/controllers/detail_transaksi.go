@@ -17,6 +17,14 @@ func NewDetailTransaksiController(m *models.DetailTransaksiModel, bc *BarangCont
 	}
 }
 
+func (dc *DetailTransaksiController) DeleteDetailTransaksi(transaksiID uint) error {
+	err := dc.model.DeleteDetailTransaksi(transaksiID)
+	if err != nil {
+		return fmt.Errorf("failed to delete detail transaksi: %w", err)
+	}
+	return nil
+}
+
 func (dc *DetailTransaksiController) AddDetailTransaksi(transaksiID uint) error {
 	for {
 		var barangID uint
