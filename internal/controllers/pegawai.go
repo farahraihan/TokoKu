@@ -74,11 +74,10 @@ func (pc *PegawaiController) AddPegawai() error {
 	return nil
 }
 
-func (pc *PegawaiController) GetPegawai() {
+func (pc *PegawaiController) GetPegawai() error {
 	pegawais, err := pc.model.GetPegawai()
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		return fmt.Errorf("failed to get pegawai: %w", err)
 	}
 
 	for _, pegawai := range pegawais {
@@ -90,8 +89,9 @@ func (pc *PegawaiController) GetPegawai() {
 		fmt.Printf("Gender: %s\n", pegawai.Gender)
 		fmt.Printf("NoTelp: %s\n", pegawai.NoTelp)
 		fmt.Println()
-
 	}
+
+	return nil
 }
 
 func (pc *PegawaiController) DeletePegawai() (bool, error) {

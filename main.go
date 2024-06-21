@@ -22,8 +22,8 @@ func main() {
 	pm := models.NewPegawaiModel(connection)
 	pc := controllers.NewPegawaiController(pm)
 
-	// cm := models.NewCustomerModel(connection)
-	// cc := controllers.NewCustomerController(cm)
+	cm := models.NewCustomerModel(connection)
+	cc := controllers.NewCustomerController(cm)
 
 	bm := models.NewBarangModel(connection)
 	bc := controllers.NewBarangController(bm)
@@ -86,7 +86,7 @@ func main() {
 							switch inputMenu {
 							case 1:
 								fmt.Println("Tambah data pegawai")
-								// Panggil fungsi AddPegawai untuk menambah pegawai baru
+								fmt.Println("____________________________________")
 								err = pc.AddPegawai()
 								if err != nil {
 									fmt.Printf("Error: %v\n", err)
@@ -96,23 +96,36 @@ func main() {
 
 							case 2:
 								fmt.Println("Edit data pegawai")
-								// Contoh: Update pegawai
+								fmt.Println("____________________________________")
 								err = pc.UpdatePegawai()
 								if err != nil {
 									fmt.Printf("Error: %v\n", err)
 									return
+								} else {
+									fmt.Println("Berhasil edit data pegawai")
 								}
+
 							case 3:
 								fmt.Println("Hapus data pegawai")
+								fmt.Println("____________________________________")
 								_, err := pc.DeletePegawai()
 								if err != nil {
-									fmt.Printf("Error delete pegawai: %v\n", err)
+									fmt.Printf("Error: %v\n", err)
 									return
+								} else {
+									fmt.Println("Pegawai berhasil dihapus.")
 								}
-								fmt.Println("Pegawai berhasil dihapus.")
+
 							case 4:
 								fmt.Println("Lihat data pegawai")
-								// pc.GetPegawai()
+								fmt.Println("____________________________________")
+								err = pc.GetPegawai()
+								if err != nil {
+									fmt.Printf("Error: %v\n", err)
+									return
+								} else {
+									fmt.Println("Berhasil menampilkan data pegawai")
+								}
 							case 5:
 								fmt.Println("TERIMAKASIH ^_^ !")
 								inputMenu = 1000
@@ -401,7 +414,7 @@ func main() {
 							}
 						}
 
-					case 5:
+					case 4:
 						fmt.Println("TERIMAKASIH ^_^ !")
 						inputMenu = 1000
 
