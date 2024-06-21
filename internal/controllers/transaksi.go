@@ -81,18 +81,26 @@ func (tc *TransaksiController) printNotaTransaksiByID(transaksiID uint) error {
 	return nil
 }
 
-func (tc *TransaksiController) AddTransaksi(id uint) (uint, error) {
+func (tc *TransaksiController) AddTransaksi(id uint) (bool, error) {
 	var newData models.Transaksi
 
 	fmt.Print("Masukkan id customer: ")
 	fmt.Scanln(&newData.CustomerID)
 	newData.PegawaiID = id
 
-	newTransactionID, err := tc.transaksiModel.AddTransaksi(newData)
+	// Tambahkan transaksi ke database
+	newTransaction, err := tc.transaksiModel.AddTransaksi(newData)
 	if err != nil {
-		return 0, err
+		return false, err
 	}
-	return newTransactionID, nil
+
+	// Tambahkan detail transaksi
+	err = tc.DetailTransaksiController.AddDetailTransaksi(newTransaction)
+	if err != nil {
+		return false, fmt.Errorf("gagal menambahkan detail transaksi: %v", err)
+	}
+
+	return true, nil
 }
 
 func (tc *TransaksiController) DeleteTransaksi() (bool, error) {
